@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  event_date: 2014-07-17
+  year: 
+  event_type: MyString
+  actor1: MyString
+  actor2: MyString
+  interaction: 
+  country: MyString
+  source: MyString
+  notes: MyText
+  total_fatalities: 
+
+two:
+  event_date: 2014-07-17
+  year: 
+  event_type: MyString
+  actor1: MyString
+  actor2: MyString
+  interaction: 
+  country: MyString
+  source: MyString
+  notes: MyText
+  total_fatalities: 
