@@ -2,18 +2,25 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.all
-    respond_with(@events)
   end
 
   def create
     @event = Event.new(event_params)
     @event.save
-    respond_with(@event)
   end
 
   def show
     @event = Event.find_by(:id => params[:id])
-    respond_with(@event)
+  end
+
+  def update
+    @event = Event.find_by(:id => params[:id])
+    @event.update(event_params)
+  end
+
+  def destroy
+    @event = Event.find_by(:id => params[:id])
+    @event.destroy
   end
 
   private
