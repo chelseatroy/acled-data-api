@@ -1,0 +1,39 @@
+<h1>Update Event</h1>
+
+<div class="form">
+  <%= form_tag(event_path(@event["id"]), method: :patch) do %>
+    <fieldset>
+      <%= label_tag :event_date %>
+      <%= text_field_tag :event_date, @event["event_date"] %><br/>
+
+      <%= label_tag :event_type %>
+      <%= text_field_tag :event_type, @event["event_type"] %><br/>
+
+      <%= label_tag :actor1 %>
+      <%= text_field_tag :actor1, @event["actor1"] %><br/>
+
+      <%= label_tag :actor2 %>
+      <%= text_field_tag :actor2, @event["actor2"] %><br/>
+
+      <%= label_tag :country %>
+      <%= text_field_tag :country, @event["country"] %><br/>
+
+      <%= label_tag :source %>
+      <%= text_field_tag :source, @event["source"] %><br/>
+
+      <%= label_tag :notes %>
+      <%= text_field_tag :notes, @event["notes"] %><br/>
+
+      <%= label_tag :total_fatalities %>
+      <%= text_field_tag :total_fatalities, @event["total_fatalities"] %><br/>
+
+      <%= label_tag :latitude %>
+      <%= text_field_tag :latitude, @event["latitude"] %><br/>
+
+      <%= label_tag :longitude %>
+      <%= text_field_tag :longitude, @event["longitude"] %><br/>
+
+      <%= submit_tag "Update Event" %>
+    </fieldset>
+  <% end %>
+</div>

@@ -1,0 +1,39 @@
+<h1>Create New Event</h1>
+
+<div class="form">
+  <%= form_tag(events_path) do %>
+    <fieldset>
+      <%= label_tag :event_date %>
+      <%= text_field_tag :event_date %><br/>
+
+      <%= label_tag :event_type %>
+      <%= text_field_tag :event_type %><br/>
+
+      <%= label_tag :actor1 %>
+      <%= text_field_tag :actor1 %><br/>
+
+      <%= label_tag :actor2 %>
+      <%= text_field_tag :actor2 %><br/>
+
+      <%= label_tag :country %>
+      <%= text_field_tag :country %><br/>
+
+      <%= label_tag :source %>
+      <%= text_field_tag :source %><br/>
+
+      <%= label_tag :notes %>
+      <%= text_field_tag :notes %><br/>
+
+      <%= label_tag :total_fatalities %>
+      <%= text_field_tag :total_fatalities %><br/>
+
+      <%= label_tag :latitude %>
+      <%= text_field_tag :latitude %><br/>
+
+      <%= label_tag :longitude %>
+      <%= text_field_tag :longitude %><br/>
+
+      <%= submit_tag "Create Event" %>
+    </fieldset>
+  <% end %>
+</div>

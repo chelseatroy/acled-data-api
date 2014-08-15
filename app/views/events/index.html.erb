@@ -1,0 +1,38 @@
+<h1>Armed Conflict Location and Event Data: All</h1>
+<table>
+  <tr>
+    <th>Event Date</th>
+    <th>Event Type</th>
+    <th>Actor 1</th>
+    <th>Actor 2</th>
+    <th>Country</th>
+    <th>Source</th>
+    <th>Notes</th>
+    <th>Total Fatalities</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
+    <th>Created At</th>
+    <th>Updated At</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <% @events.each do |event| %>
+    <tr>
+      <td><%= event.event_date %></td> 
+      <td><%= event.event_type %></td>
+      <td><%= event.actor1 %></td>
+      <td><%= event.actor2 %></td>
+      <td><%= event.country %></td>
+      <td><%= event.source %></td>
+      <td><%= event.notes %></td>
+      <td><%= event.total_fatalities %></td>
+      <td><%= event.latitude %></td>
+      <td><%= event.longitude %></td>
+      <td><%= event.created_at %></td>
+      <td><%= event.updated_at %></td>
+      <td><%= event.updated_at %></td>
+      <td><%=link_to "Edit", edit_event_path(event.id) %></td>
+      <td><%=link_to 'Destroy',  event_path(event.id),  method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+</table>

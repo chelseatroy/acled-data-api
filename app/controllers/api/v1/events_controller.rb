@@ -1,4 +1,6 @@
-class EventsController < ApplicationController
+class Api::V1::EventsController < ApplicationController
+
+  before_action :restrict_access, :only => [:create, :update, :destroy]
 
   def index
     @events = Event.all
@@ -28,4 +30,5 @@ class EventsController < ApplicationController
   def event_params
     return params.require(:event).permit(:event_date, :year, :event_type, :actor1, :actor2, :interaction, :country, :source, :notes, :total_fatalities, :latitude, :longitude)
   end
+
 end

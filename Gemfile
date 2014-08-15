@@ -7,6 +7,8 @@ gem 'rails_12factor', group: :production
 gem 'rails', '4.1.1'
 #for development db
 gem 'mysql2'
+#for prividing irb session inside rails server
+gem 'pry'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
