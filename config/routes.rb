@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'events/index'
+
+  get 'events/show'
+
   namespace :api do
     namespace :v1 do
       resources :events
