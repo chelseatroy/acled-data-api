@@ -4,23 +4,23 @@
     <h1>Armed Conflict Location and Event Data: All</h1>
     <table>
       <tr>
-        <th>ID</th>
-        <th>Event Date</th>
-        <th>Event Type</th>
-        <th>Actor 1</th>
-        <th>Actor 2</th>
-        <th>Country</th>
-        <th>Source</th>
+        <th><a href="" ng-click="reverseSort('id')">ID</a></th>
+        <th><a href="" ng-click="reverseSort('event_date')">Event Date</a></th>
+        <th><a href="" ng-click="reverseSort('event_type')">Event Type</a></th>
+        <th><a href="" ng-click="reverseSort('actor1')">Actor 1</a></th>
+        <th><a href="" ng-click="reverseSort('actor2')">Actor 2</a></th>
+        <th><a href="" ng-click="reverseSort('country')">Country</a></th>
+        <th><a href="" ng-click="reverseSort('source')">Source</a></th>
         <th>Notes</th>
-        <th>Total Fatalities</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
-        <th>Created At</th>
-        <th>Updated At</th>
+        <th><a href="" ng-click="reverseSort('total_fatalities')">Total Fatalities</a></th>
+        <th><a href="" ng-click="reverseSort('latitude')">Latitude</a></th>
+        <th><a href="" ng-click="reverseSort('longitude')">Longitude</a></th>
+        <th><a href="" ng-click="reverseSort('created_at')">Created At</a></th>
+        <th><a href="" ng-click="reverseSort('updated_at')">Updated At</a></th>
         <th></th>
         <th></th>
       </tr>
-        <tr ng-repeat="event in events">
+        <tr ng-repeat="event in events | orderBy:column:aToZ">
           <td><a href="/events/{{event.id}}">{{ event.id }}</a></td>
           <td>{{ event.event_date }}</td> 
           <td>{{ event.event_type }}</td>
