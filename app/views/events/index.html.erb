@@ -2,6 +2,7 @@
 <div ng-app="app">
   <div ng-controller="eventsCtrl">
     <h1>Armed Conflict Location and Event Data: All</h1>
+    <input ng-model="query">
     <table>
       <tr>
         <th><a href="" ng-click="reverseSort('id')">ID</a></th>
@@ -20,7 +21,7 @@
         <th></th>
         <th></th>
       </tr>
-        <tr ng-repeat="event in events | orderBy:column:aToZ">
+        <tr ng-repeat="event in events | orderBy:column:aToZ | filter:query">
           <td><a href="/events/{{event.id}}">{{ event.id }}</a></td>
           <td>{{ event.event_date }}</td> 
           <td>{{ event.event_type }}</td>
