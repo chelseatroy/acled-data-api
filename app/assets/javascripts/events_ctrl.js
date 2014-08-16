@@ -6,6 +6,13 @@
       $scope.events = response.data;
     });
 
+    $scope.aToZ = false;
+    $scope.reverseSort(string){
+      $scope.column = string;
+      $scope.aToZ = !$scope.aToZ;
+       // | orderBy:column:aToZ
+    }
+
     $scope.popUp = function(){
       
     }
