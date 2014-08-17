@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'compass-rails'
 gem 'foundation-rails'
+gem 'chart-js-rails'
 #for Heroku db
 gem 'pg'
 gem 'rails_12factor', group: :production

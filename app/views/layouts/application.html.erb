@@ -6,7 +6,9 @@
 
     <title><%= content_for?(:title) ? yield(:title) : "ACLED Data" %></title>
 
+
     <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application" %>
     <%= javascript_include_tag "vendor/modernizr" %>
     <%= csrf_meta_tags %>
   </head>
@@ -14,6 +16,5 @@
   <body>
 
     <%= yield %>
-    <%= javascript_include_tag "application" %>
   </body>
 </html>

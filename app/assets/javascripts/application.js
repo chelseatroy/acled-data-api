@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require angular
+//= require Chart
 //= require foundation
 //= require turbolinks
 //= require_tree .
