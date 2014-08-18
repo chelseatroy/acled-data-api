@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   end
 
   resources :events
+  get 'events/countries/:country' => 'events#by_country', as: :country
 
 
   # The priority is based upon order of creation: first created -> highest priority.
