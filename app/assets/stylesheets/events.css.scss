@@ -1,10 +1,24 @@
 // Place all the styles related to the events controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.page{
+@mixin rounded-box{
+  padding: 10px;
+  border: 5px outset #999; 
+  border-radius: 5px;
+  background-color: #666;
+}
 
+.page{
+  padding: 40px;
+  
 }
 
 .border-box{
-  
+  height: 300px;
+  @include rounded-box;
+}
+
+h2.show{
+  text-align: center;
+  @include rounded-box;
 }

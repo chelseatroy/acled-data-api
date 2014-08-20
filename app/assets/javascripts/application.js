@@ -16,6 +16,8 @@
 //= require Chart
 //= require foundation
 //= require turbolinks
+//= require heatmap
+//= require gmaps-heatmap
 //= require_tree .
 
 $(function(){ $(document).foundation(); });

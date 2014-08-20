@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
 
   root 'events#index'
-
-  get 'events/index'
-  get 'events/show'
+  get 'events/upload' => 'events#upload', as: :upload
+  post 'events/import' => 'events#import', as: :import
+  # get 'events/index'
+  # get 'events/show'
 
   namespace :api do
     namespace :v1 do
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
 
   resources :events
   get 'events/countries/:country' => 'events#by_country', as: :country
+  
 
 
   # The priority is based upon order of creation: first created -> highest priority.

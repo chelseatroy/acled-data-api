@@ -1,0 +1,10 @@
+<div class="form">
+  <%= form_tag(import_path, multipart: true) do %>
+    <fieldset>
+      <%= label_tag :spreadsheet_as_csv %>
+      <%= file_field_tag :spreadsheet_as_csv %>
+      
+      <%= submit_tag "Add Events" %>
+    </fieldset>
+  <% end %>
+</div>

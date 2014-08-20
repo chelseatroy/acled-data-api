@@ -1,10 +1,11 @@
+require 'csv'
 class EventsController < ApplicationController
   def index
     @events = Event.all
 
-    @map_url = "http://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap>"
+    # @map_url = "http://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap>"
     @events.each do |event|
-      @map_url += event.event_location
+      # @map_url += event.event_location
       @test_array = [65, 59, 80, 81, 56, 55, 40]
     end
 
@@ -12,9 +13,9 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find_by(params[:id])
+    @event = Event.find_by(:id => params[:id])
 
-    @map_url = "http://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap>#{@event.event_location}"
+    @map_url = "http://maps.googleapis.com/maps/api/staticmap?zoom=4&size=300x280&maptype=roadmap>#{@event.event_location}"
     @test_array = [65, 59, 80, 81, 56, 55, 40]
   end
 
@@ -29,4 +30,32 @@ class EventsController < ApplicationController
     end
     puts @days.inspect
   end
+
+  def new
+  end
+
+  def create
+  end
+
+  def upload
+  end
+
+  def import
+    @new_events = params[:spreadsheet_as_csv]
+    CSV.foreach(@new_events.path, :headers => true) do |row|
+      Event.create(:event_date => row['EVENT_DATE'], 
+                   :event_type => row['EVENT_TYPE'], 
+                   :actor1 => row['ACTOR1'], 
+                   :actor2 => row['ACTOR2'], 
+                   :year => row['YEAR'].to_i, 
+                   :country => row['COUNTRY'], 
+                   :total_fatalities => row['TOTAL_FATALITIES'].to_i,
+                   :latitude => BigDecimal(row['LATITUDE']),
+                   :longitude => BigDecimal(row['LONGITUDE']), 
+                   :source => row['SOURCE'], 
+                   :notes => row['NOTES'], 
+                   :interaction => row['INTERACTION'].to_i)
+    end
+  end
+
 end

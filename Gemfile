@@ -1,7 +1,11 @@
 source 'https://rubygems.org'
 
+#NON-DEFAULT GEMS
+
+#CSS
 gem 'compass-rails'
 gem 'foundation-rails'
+#Charts and graphs
 gem 'chart-js-rails'
 #for Heroku db
 gem 'pg'
@@ -12,6 +16,8 @@ gem 'rails', '4.1.1'
 gem 'mysql2'
 #for prividing irb session inside rails server
 gem 'pry'
+
+#DEFAULT GEMS
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'

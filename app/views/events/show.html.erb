@@ -1,9 +1,10 @@
 <div class="page">
-  <h2>
+  
+  <h2 class="show">
     <%= @event.id %> — <%= @event.event_date %> — <%= @event.country %>
   </h2>
 
-  <div class="border-box">
+  <div class="border-box grid_4">
     <p>Event Type: 
       <%= @event.event_type %>
     </p>
@@ -18,42 +19,53 @@
     </p>
   </div>
 
-  <canvas id="myChart" width="800" height="400"></canvas>
+  <div class="border-box grid_4">
+    <img src=<%= @map_url %>>
+  </div>
+
+  <div class="border-box grid_4">
+    <p>Source: 
+      <%= @event.source %>
+    </p>
+    <p>Notes: 
+      <%= @event.notes %>
+    </p>
+  </div>
   
-  <img src=<%= @map_url %>>
-
-  <script>
-    var data = {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
-        datasets: [
-            {
-                label: "My First dataset",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
-                data: <%= @test_array %>
-            },
-            {
-                label: "My Second dataset",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
-                data: [28, 48, 40, 19, 86, 27, 90]
-            }
-        ]
-    };
-
-    var ctx = document.getElementById("myChart").getContext("2d");
-
-    var myLineChart = new Chart(ctx).Line(data);
-</script>
 </div>
+
+    <script>
+      var data = {
+          labels: ["January", "February", "March", "April", "May", "June", "July"],
+          datasets: [
+              {
+                  label: "My First dataset",
+                  fillColor: "rgba(220,220,220,0.2)",
+                  strokeColor: "rgba(220,220,220,1)",
+                  pointColor: "rgba(220,220,220,1)",
+                  pointStrokeColor: "#fff",
+                  pointHighlightFill: "#fff",
+                  pointHighlightStroke: "rgba(220,220,220,1)",
+                  data: <%= @test_array %>
+              },
+              {
+                  label: "My Second dataset",
+                  fillColor: "rgba(151,187,205,0.2)",
+                  strokeColor: "rgba(151,187,205,1)",
+                  pointColor: "rgba(151,187,205,1)",
+                  pointStrokeColor: "#fff",
+                  pointHighlightFill: "#fff",
+                  pointHighlightStroke: "rgba(151,187,205,1)",
+                  data: [28, 48, 40, 19, 86, 27, 90]
+              }
+          ]
+      };
+
+      var ctx = document.getElementById("myChart").getContext("2d");
+
+      var myLineChart = new Chart(ctx).Line(data);
+  </script>
+
 
 
 
