@@ -56,8 +56,8 @@ class EventsController < ApplicationController
                    :year => row['YEAR'].to_i, 
                    :country => row['COUNTRY'], 
                    :total_fatalities => row['TOTAL_FATALITIES'].to_i,
-                   :latitude => BigDecimal(row['LATITUDE']),
-                   :longitude => BigDecimal(row['LONGITUDE']), 
+                   :latitude => row['LATITUDE'],
+                   :longitude => row['LONGITUDE'], 
                    :source => row['SOURCE'], 
                    :notes => row['NOTES'], 
                    :interaction => row['INTERACTION'].to_i)
