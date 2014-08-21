@@ -9,7 +9,11 @@ class EventsController < ApplicationController
       @test_array = [65, 59, 80, 81, 56, 55, 40]
     end
 
-
+    @event_locations = []
+    @events.each do |event| 
+      @event_locations << {lat: event.latitude, lng: event.longitude, count: 1}
+    end
+    @event_locations = @event_locations.to_json
   end
 
   def show
@@ -28,7 +32,9 @@ class EventsController < ApplicationController
       @events_by_day << events.count
       @days << number_of.days.ago.to_date.strftime("%m/%d/%Y")
     end
-    puts @days.inspect
+  end
+
+  def by_actor
   end
 
   def new

@@ -3,9 +3,29 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @mixin rounded-box{
   padding: 10px;
-  border: 5px outset #999; 
+  // border: 5px outset #999; 
   border-radius: 5px;
-  background-color: #666;
+  background-color: #F5F5F5;
+}
+
+.demo-wrapper {
+  height: 400px;
+  background: rgba(0,0,0,.03);
+  // border: 3px solid black;
+}
+
+.heatmap {
+  width: 85%;
+  height: 100%;
+}
+
+
+div#heatmapArea {
+    width:880px;
+    padding:0;
+    height:400px;
+    cursor:pointer;
+    position:relative;
 }
 
 .page{
@@ -20,5 +40,5 @@
 
 h2.show{
   text-align: center;
-  @include rounded-box;
+  // font-family: 
 }

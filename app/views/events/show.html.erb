@@ -1,7 +1,7 @@
 <div class="page">
   
   <h2 class="show">
-    <%= @event.id %> — <%= @event.event_date %> — <%= @event.country %>
+    <%= @event.country %>: <%= @event.event_date.strftime("%b %d, %Y") %>  
   </h2>
 
   <div class="border-box grid_4">

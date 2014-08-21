@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   resources :events
   get 'events/countries/:country' => 'events#by_country', as: :country
+  get 'events/actors/:actor' => 'events#by_actor', as: :actor
   
 
 
