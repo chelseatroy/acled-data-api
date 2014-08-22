@@ -1,7 +1,40 @@
 <div class="page">
+
   <div ng-app="app">
     <div ng-controller="eventsCtrl">
-      <h1>Armed Conflict Location and Event Data: All</h1>
+
+      <div class="sticky">
+        <nav class="top-bar" data-topbar>
+          <ul class="title-area">
+            <li class="name">
+              <h1><a href="#">My Site</a></h1>
+            </li>
+             <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+          </ul>
+
+          <section class="top-bar-section">
+            <!-- Right Nav Section -->
+            <ul class="right">
+              <li class="active"><a href="#">Right Button Active</a></li>
+              <li class="has-dropdown">
+                <a href="#">Right Button Dropdown</a>
+                <ul class="dropdown">
+                  <li><a href="#">First link in dropdown</a></li>
+                  <li class="active"><a href="#">Active link in dropdown</a></li>
+                </ul>
+              </li>
+            </ul>
+
+            <!-- Left Nav Section -->
+            <ul class="left">
+              <li><a href="#">Left Nav Button</a></li>
+            </ul>
+          </section>
+        </nav>
+      </div>
+
+      <h1>Armed Conflict Location and Event Data</h1>
       
 
       <div class="demo-wrapper">
@@ -109,9 +142,9 @@ var myLineChart = new Chart(ctx).Line(data);
           gradient: {
           // enter n keys between 0 and 1 here
           // for gradient color customization
-          '.5': 'purple',
-          '.8': 'red',
-          '.95': 'white'
+          '.05': 'purple',
+          '.6': 'red',
+          '.9': 'white'
           },
           // radius should be small ONLY if scaleRadius is true (or small radius is intended)
           "radius": 2,

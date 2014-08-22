@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 #NON-DEFAULT GEMS
 
+#creating a seed file so others can view app with data
+gem 'seed_dump'
 #CSS
 gem 'compass-rails'
 gem 'foundation-rails'

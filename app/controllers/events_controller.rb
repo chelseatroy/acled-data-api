@@ -20,7 +20,6 @@ class EventsController < ApplicationController
     @event = Event.find_by(:id => params[:id])
 
     @map_url = "http://maps.googleapis.com/maps/api/staticmap?zoom=4&size=300x280&maptype=roadmap>#{@event.event_location}"
-    @test_array = [65, 59, 80, 81, 56, 55, 40]
   end
 
   def by_country
@@ -48,8 +47,11 @@ class EventsController < ApplicationController
 
   def import
     @new_events = params[:spreadsheet_as_csv]
+    count = 0
     CSV.foreach(@new_events.path, :headers => true) do |row|
-      Event.create(:event_date => row['EVENT_DATE'], 
+      count += 1
+      begin
+        Event.create(:event_date => row['EVENT_DATE'], 
                    :event_type => row['EVENT_TYPE'], 
                    :actor1 => row['ACTOR1'], 
                    :actor2 => row['ACTOR2'], 
@@ -57,10 +59,13 @@ class EventsController < ApplicationController
                    :country => row['COUNTRY'], 
                    :total_fatalities => row['TOTAL_FATALITIES'].to_i,
                    :latitude => row['LATITUDE'],
-                   :longitude => row['LONGITUDE'], 
-                   :source => row['SOURCE'], 
+                   :longitude => BigDecimal(row['LONGITUDE']), 
+                   :source => BigDecimal(row['SOURCE']), 
                    :notes => row['NOTES'], 
                    :interaction => row['INTERACTION'].to_i)
+      rescue
+        puts "MALFORMED ROW: #{count}" 
+      end
     end
   end
 
