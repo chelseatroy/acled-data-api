@@ -1,0 +1,36 @@
+<div class="page">    
+
+    <h2>The Data</h2>
+      <p>Click on a column name to sort by that colum. Click it again to reverse the order.</p>
+      <p>Or filter by a term:
+      <input ng-model="query"></p>
+      <table>
+        <tr>
+          <th><a href="" ng-click="reverseSort('id')">ID</a></th>
+          <th><a href="" ng-click="reverseSort('event_date')">Event Date</a></th>
+          <th><a href="" ng-click="reverseSort('event_type')">Event Type</a></th>
+          <th><a href="" ng-click="reverseSort('actor1')">Actor 1</a></th>
+          <th><a href="" ng-click="reverseSort('actor2')">Actor 2</a></th>
+          <th><a href="" ng-click="reverseSort('country')">Country</a></th>
+          <th><a href="" ng-click="reverseSort('total_fatalities')">Total Fatalities</a></th>
+          <th><a href="" ng-click="reverseSort('latitude')">Latitude</a></th>
+          <th><a href="" ng-click="reverseSort('longitude')">Longitude</a></th>
+          <th></th>
+          <th></th>
+        </tr>
+          <tr ng-repeat="event in events | orderBy:column:aToZ | filter:query">
+            <td><a href="/events/{{event.id}}">{{ event.id }}</a></td>
+            <td>{{ event.event_date }}</td> 
+            <td>{{ event.event_type }}</td>
+            <td>{{ event.actor1 }}</td>
+            <td>{{ event.actor2 }}</td>
+            <td><a href="/events/countries/{{event.country}}">{{ event.country }}</a></td>
+            <td>{{ event.total_fatalities }}</td>
+            <td>{{ event.latitude }}</td>
+            <td>{{ event.longitude }}</td>
+            <td><!-- {{link_to "Edit", edit_event_path(event.id) }} --></td>
+            <td><!-- {{link_to 'Destroy',  event_path(event.id),  method: :delete, data: { confirm: 'Are you sure?' } }} --></td>
+          </tr>
+      </table>
+      
+</div> 

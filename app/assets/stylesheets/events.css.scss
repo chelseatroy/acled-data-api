@@ -8,6 +8,11 @@
   background-color: #F5F5F5;
 }
 
+.border-box{
+  height: 300px;
+  @include rounded-box;
+}
+
 .demo-wrapper {
   height: 400px;
   background: rgba(0,0,0,.03);
@@ -15,17 +20,21 @@
 }
 
 .heatmap {
-  width: 85%;
+  width: 100%;
   height: 100%;
 }
 
-
 div#heatmapArea {
-    width:880px;
+    width:1000px;
     padding:0;
     height:400px;
     cursor:pointer;
     position:relative;
+}
+
+.index-header{
+  padding: 10px 0 0 0;
+  text-align: center;
 }
 
 .page{
@@ -33,10 +42,7 @@ div#heatmapArea {
   
 }
 
-.border-box{
-  height: 300px;
-  @include rounded-box;
-}
+
 
 h2.show{
   text-align: center;

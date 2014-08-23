@@ -1,30 +1,6 @@
-<div class="page">
- 
-  <canvas id="myChart" width="8000" height="400"></canvas>
-  
-</div>
-
-<script>
-  var data = {
-      labels: <%= raw @days %>,
-      datasets: [
-          {
-              label: "My First dataset",
-              fillColor: "rgba(220,220,220,0.2)",
-              strokeColor: "rgba(220,220,220,1)",
-              pointColor: "rgba(220,220,220,1)",
-              pointStrokeColor: "#fff",
-              pointHighlightFill: "#fff",
-              pointHighlightStroke: "rgba(220,220,220,1)",
-              data: <%= @events_by_day %>
-          }
-      ]
-  };
-
-  var ctx = document.getElementById("myChart").getContext("2d");
-
-  var myLineChart = new Chart(ctx).Line(data);
-</script>
+<% 1000.times do %>
+  <h1> HALLUR PURPLE</h1>
+<% end %>
 
 
 

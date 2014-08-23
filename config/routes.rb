@@ -2,7 +2,9 @@ Rails.application.routes.draw do
 
   root 'events#index'
   get 'events/upload' => 'events#upload', as: :upload
-  post 'events/import' => 'events#import', as: :import
+  post 'events/upload' => 'events#import', as: :import
+  get 'events/data' => 'events#data', as: :data
+  
   # get 'events/index'
   # get 'events/show'
 
@@ -15,7 +17,7 @@ Rails.application.routes.draw do
   resources :events
   get 'events/countries/:country' => 'events#by_country', as: :country
   get 'events/actors/:actor' => 'events#by_actor', as: :actor
-  
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.

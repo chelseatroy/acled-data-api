@@ -1,117 +1,55 @@
 <div class="page">
-
-  <div ng-app="app">
-    <div ng-controller="eventsCtrl">
-
-      <div class="sticky">
-        <nav class="top-bar" data-topbar>
-          <ul class="title-area">
-            <li class="name">
-              <h1><a href="#">My Site</a></h1>
-            </li>
-             <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-          </ul>
-
-          <section class="top-bar-section">
-            <!-- Right Nav Section -->
-            <ul class="right">
-              <li class="active"><a href="#">Right Button Active</a></li>
-              <li class="has-dropdown">
-                <a href="#">Right Button Dropdown</a>
-                <ul class="dropdown">
-                  <li><a href="#">First link in dropdown</a></li>
-                  <li class="active"><a href="#">Active link in dropdown</a></li>
-                </ul>
-              </li>
-            </ul>
-
-            <!-- Left Nav Section -->
-            <ul class="left">
-              <li><a href="#">Left Nav Button</a></li>
-            </ul>
-          </section>
-        </nav>
-      </div>
-
-      <h1>Armed Conflict Location and Event Data</h1>
+  <h1 class="index-header">Armed Conflict Location and Event Data</h1>
       
-
-      <div class="demo-wrapper">
-        <div id="heatmapArea" class="heatmap"></div>
-      </div>
-
-      <canvas id="myChart" width="880" height="400"></canvas>
-    
-
-      <h2>The Data</h2>
-      <p>Click on a column name to sort by that colum. Click it again to reverse the order.</p>
-      <p>Or filter by a term:
-      <input ng-model="query"></p>
-      <table>
-        <tr>
-          <th><a href="" ng-click="reverseSort('id')">ID</a></th>
-          <th><a href="" ng-click="reverseSort('event_date')">Event Date</a></th>
-          <th><a href="" ng-click="reverseSort('event_type')">Event Type</a></th>
-          <th><a href="" ng-click="reverseSort('actor1')">Actor 1</a></th>
-          <th><a href="" ng-click="reverseSort('actor2')">Actor 2</a></th>
-          <th><a href="" ng-click="reverseSort('country')">Country</a></th>
-          <th><a href="" ng-click="reverseSort('total_fatalities')">Total Fatalities</a></th>
-          <th><a href="" ng-click="reverseSort('latitude')">Latitude</a></th>
-          <th><a href="" ng-click="reverseSort('longitude')">Longitude</a></th>
-          <th></th>
-          <th></th>
-        </tr>
-          <tr ng-repeat="event in events | orderBy:column:aToZ | filter:query">
-            <td><a href="/events/{{event.id}}">{{ event.id }}</a></td>
-            <td>{{ event.event_date }}</td> 
-            <td>{{ event.event_type }}</td>
-            <td>{{ event.actor1 }}</td>
-            <td>{{ event.actor2 }}</td>
-            <td><a href="/events/countries/{{event.country}}">{{ event.country }}</a></td>
-            <td>{{ event.total_fatalities }}</td>
-            <td>{{ event.latitude }}</td>
-            <td>{{ event.longitude }}</td>
-            <td><!-- {{link_to "Edit", edit_event_path(event.id) }} --></td>
-            <td><!-- {{link_to 'Destroy',  event_path(event.id),  method: :delete, data: { confirm: 'Are you sure?' } }} --></td>
-          </tr>
-      </table>
+  <h3 class="index-header">Locations of Violent Events Since January</h3>
+    <div class="demo-wrapper">
+      <div id="heatmapArea" class="heatmap"></div>
     </div>
-  </div>
+
+  <h3 class="index-header">Total Violent Events from the Past Month:</h3>
+    <canvas id="monthLineChart" width="880" height="400"></canvas>
+    
 </div>
 
-
-<script src="assets/js/heatmap.min.js"></script>
-<script src="assets/js/gmaps-heatmap.js"></script>
 <script>
 
 var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
-    datasets: [
+    labels: <%= raw @days %>,
+    datasets: [ 
         {
-            label: "My First dataset",
-            fillColor: "rgba(220,220,220,0.2)",
-            strokeColor: "rgba(220,220,220,1)",
-            pointColor: "rgba(220,220,220,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(220,220,220,1)",
-            data: <%= @test_array %>
-        },
-        {
-            label: "My Second dataset",
-            fillColor: "rgba(151,187,205,0.2)",
-            strokeColor: "rgba(151,187,205,1)",
-            pointColor: "rgba(151,187,205,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(151,187,205,1)",
-            data: [28, 48, 40, 19, 86, 27, 90]
+          label: "Violent Events Over Past Month",
+          fillColor: "rgba(440,120,120,0.2)",
+          strokeColor: "rgba(440,120,120,1)",
+          pointColor: "rgba(440,120,120,1)",
+          pointStrokeColor: "#fbb",
+          pointHighlightFill: "#fbb",
+          pointHighlightStroke: "rgba(440,120,120,1)",
+          data: <%= @all_events_by_day %>
         }
+        // {
+        //     label: "My First dataset",
+        //     fillColor: "rgba(220,220,220,0.2)",
+        //     strokeColor: "rgba(220,220,220,1)",
+        //     pointColor: "rgba(220,220,220,1)",
+        //     pointStrokeColor: "#fff",
+        //     pointHighlightFill: "#fff",
+        //     pointHighlightStroke: "rgba(220,220,220,1)",
+        //     data: <%= @test_array %>
+        // },
+        // {
+        //     label: "My Second dataset",
+        //     fillColor: "rgba(151,187,205,0.2)",
+        //     strokeColor: "rgba(151,187,205,1)",
+        //     pointColor: "rgba(151,187,205,1)",
+        //     pointStrokeColor: "#fff",
+        //     pointHighlightFill: "#fff",
+        //     pointHighlightStroke: "rgba(151,187,205,1)",
+        //     data: [28, 48, 40, 19, 86, 27, 90]
+        // }
     ]
 };
 
-var ctx = document.getElementById("myChart").getContext("2d");
+var ctx = document.getElementById("monthLineChart").getContext("2d");
 
 var myLineChart = new Chart(ctx).Line(data);
 </script>
