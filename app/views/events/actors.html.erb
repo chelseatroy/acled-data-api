@@ -1,0 +1,10 @@
+<div class="page">
+  <h1 class="header">Actors Committing Violence</h1>
+
+  <ol>
+    <% @actors.each do |actor| %>
+      <li><%= link_to actor, actor_path(actor) %></li>
+    <% end %>
+  </ol>
+
+</div>

@@ -1,0 +1,185 @@
+<div class="page">
+  <h1 class="header">Armed Conflict Location and Event Data</h1>
+      
+  <h3 class="header">Locations of Violent Events Since January</h3>
+    <div class="demo-wrapper">
+      <div id="heatmapArea" class="heatmap"></div>
+    </div>
+
+  <h3 class="header">Total Violent Events from the Past Month:</h3>
+    <canvas id="monthLineChart" width="880" height="400"></canvas>
+
+  <div class="circle-chart-box grid_6">
+    <canvas id="countryPieChart" width="400" height="400"></canvas>
+  </div>
+
+  <div class="circle-chart-box grid_6">
+    <p>Source: 
+      fdbdfvjsdbcdskcnasjcd
+    </p>
+    <p>Notes: 
+      sduvhdskcvmdkscnjksdncsjkd
+    </p>
+  </div>
+    
+</div>
+
+<script>
+//LINE CHART PAST 30 DAYS SCRIPT
+var data = {
+    labels: <%= raw @days %>,
+    datasets: [ 
+        {
+          label: "Violent Events Over Past Month",
+          fillColor: "rgba(440,120,120,0.2)",
+          strokeColor: "rgba(440,120,120,1)",
+          pointColor: "rgba(440,120,120,1)",
+          pointStrokeColor: "#fbb",
+          pointHighlightFill: "#fbb",
+          pointHighlightStroke: "rgba(440,120,120,1)",
+          data: <%= @all_events_by_day %>
+        }
+        // {
+        //     label: "My First dataset",
+        //     fillColor: "rgba(220,220,220,0.2)",
+        //     strokeColor: "rgba(220,220,220,1)",
+        //     pointColor: "rgba(220,220,220,1)",
+        //     pointStrokeColor: "#fff",
+        //     pointHighlightFill: "#fff",
+        //     pointHighlightStroke: "rgba(220,220,220,1)",
+        //     data: <%= @test_array %>
+        // },
+        // {
+        //     label: "My Second dataset",
+        //     fillColor: "rgba(151,187,205,0.2)",
+        //     strokeColor: "rgba(151,187,205,1)",
+        //     pointColor: "rgba(151,187,205,1)",
+        //     pointStrokeColor: "#fff",
+        //     pointHighlightFill: "#fff",
+        //     pointHighlightStroke: "rgba(151,187,205,1)",
+        //     data: [28, 48, 40, 19, 86, 27, 90]
+        // }
+    ]
+};
+
+var ctx = document.getElementById("monthLineChart").getContext("2d");
+
+var myLineChart = new Chart(ctx).Line(data);
+</script>
+
+<script>
+//COUNTRIES PIE CHART SCRIPT
+var data = [
+    {
+        value: 300,
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: "Red"
+    },
+    {
+        value: 50,
+        color: "#46BFBD",
+        highlight: "#5AD3D1",
+        label: "Green"
+    },
+    {
+        value: 100,
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: "Yellow"
+    }
+];
+
+var options = {
+    //Boolean - Whether we should show a stroke on each segment
+    segmentShowStroke : true,
+
+    //String - The colour of each segment stroke
+    segmentStrokeColor : "#fff",
+
+    //Number - The width of each segment stroke
+    segmentStrokeWidth : 2,
+
+    //Number - The percentage of the chart that we cut out of the middle
+    percentageInnerCutout : 50, // This is 0 for Pie charts
+
+    //Number - Amount of animation steps
+    animationSteps : 100,
+
+    //String - Animation easing effect
+    animationEasing : "easeOutBounce",
+
+    //Boolean - Whether we animate the rotation of the Doughnut
+    animateRotate : true,
+
+    //Boolean - Whether we animate scaling the Doughnut from the centre
+    animateScale : false
+
+};
+
+var ctx = document.getElementById("countryPieChart").getContext("2d");
+
+var myPieChart = new Chart(ctx).Pie(data,options);
+</script>
+
+<script>
+//HEATMAP SCRIPT
+  window.onload = function() {
+
+      // map center
+      var myLatlng = new google.maps.LatLng(17.5968801,8.0828506);
+      // map options,
+      var myOptions = {
+        zoom: 3,
+        center: myLatlng,
+        mapTypeId: google.maps.MapTypeId.HYBRID,
+        disableDefaultUI: false,
+        scrollwheel: false,
+        draggable: true,
+        navigationControl: true,
+        mapTypeControl: false,
+        scaleControl: true,
+        disableDoubleClickZoom: false
+      };
+      // standard map
+      var map = new google.maps.Map(document.getElementById("heatmapArea"), myOptions);
+      // heatmap layer
+      var heatmap = new HeatmapOverlay(map, 
+        {
+          gradient: {
+          // enter n keys between 0 and 1 here
+          // for gradient color customization
+          '.05': 'purple',
+          '.6': 'red',
+          '.9': 'white'
+          },
+          // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+          "radius": 2,
+          "maxOpacity": 1, 
+          // scales the radius based on map zoom
+          "scaleRadius": true, 
+          // if set to false the heatmap uses the global maximum for colorization
+          // if activated: uses the data maximum within the current map boundaries 
+          //   (there will always be a red spot with useLocalExtremas true)
+          "useLocalExtrema": true,
+          // which field name in your data represents the latitude - default "lat"
+          latField: 'lat',
+          // which field name in your data represents the longitude - default "lng"
+          lngField: 'lng',
+          // which field name in your data represents the data value - default "value"
+          valueField: 'count'
+        }
+      );
+
+      var eventLocations = {
+        max: 8,
+        data: <%= raw @event_locations %>
+      };
+
+      heatmap.setData(eventLocations);
+
+  };
+</script>
+
+
+

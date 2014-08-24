@@ -1,9 +1,9 @@
 require 'csv'
 class EventsController < ApplicationController
-  def index
+
+  def dashboard
     @events = Event.all
 
-    # @map_url = "http://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap>"
     @all_events_by_day = []
     @days = []
     number_of_days = 30
@@ -15,9 +15,6 @@ class EventsController < ApplicationController
     @days = @days.reverse
     @all_events_by_day = @all_events_by_day.reverse.to_json
     
-    @test_array = [65, 59, 80, 81, 56, 55, 40]
-
-
     @event_locations = []
     @events.each do |event| 
       @event_locations << {lat: event.latitude, lng: event.longitude, count: 1}
@@ -25,7 +22,7 @@ class EventsController < ApplicationController
     @event_locations = @event_locations.to_json
   end
 
-  def data
+  def index
     @events = Event.all
   end
 
@@ -35,18 +32,74 @@ class EventsController < ApplicationController
     @map_url = "http://maps.googleapis.com/maps/api/staticmap?zoom=4&size=300x280&maptype=roadmap>#{@event.event_location}"
   end
 
+  def countries
+    @events = Event.all
+    # @countries = @events.map(&:country).uniq
+    @countries = Event.uniq.pluck(:country)
+  end
+
+  def actors
+    @events = Event.all
+
+    actor1s = Event.uniq.pluck(:actor1).compact.map(&:capitalize)
+    actor2s = Event.uniq.pluck(:actor2).compact.map(&:capitalize)
+    @actors = (actor1s+actor2s).uniq.sort
+  end
+
   def by_country
+    @country =  params[:country]
+
     @events_by_day = []
     @days = []
-    number_of_days = 500
+    number_of_days = 240
     number_of_days.times do |number_of|
       events = Event.where(:country => params[:country], :event_date => number_of.days.ago.to_date)
       @events_by_day << events.count
       @days << number_of.days.ago.to_date.strftime("%m/%d/%Y")
     end
+    @events_by_day = @events_by_day.reverse
+    @days = @days.reverse
+    @count = 0
+
+    @each_month = []
+    months = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    @days.each do |day_label|
+      if day_label =~ /[0-9]\/01\/[0-9]/
+        date = day_label.split("/")
+        @each_month << "#{months[date[0].to_i]} #{date[1]}, #{date[2]}"
+      else 
+        @each_month << ""
+      end
+    end
   end
 
   def by_actor
+    @actor =  params[:actpr]
+
+    @events_by_day = []
+    @days = []
+    number_of_days = 240
+    number_of_days.times do |number_of|
+      events = (Event.where(:actor1 => params[:actor], :event_date => number_of.days.ago.to_date) + Event.where(:actor2 => params[:actor], :event_date => number_of.days.ago.to_date)).uniq.compact
+      @events_by_day << events.count
+      @days << number_of.days.ago.to_date.strftime("%m/%d/%Y")
+    end
+    @events_by_day = @events_by_day.reverse
+    @days = @days.reverse
+    @count = 0
+
+    @each_month = []
+    months = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    @days.each do |day_label|
+      if day_label =~ /[0-9]\/01\/[0-9]/
+        date = day_label.split("/")
+        @each_month << "#{months[date[0].to_i]} #{date[1]}, #{date[2]}"
+      else 
+        @each_month << ""
+      end
+    end
+  end
+
   end
 
   def new
@@ -82,4 +135,5 @@ class EventsController < ApplicationController
     end
   end
 
-end
+
+

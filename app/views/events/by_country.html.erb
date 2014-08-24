@@ -1,29 +1,37 @@
 <div class="page">
- 
-  <canvas id="myChart" width="8000" height="400"></canvas>
+
+  <h1 class="header">Violence in <%= @country %></h1>
+
+  <h4>Violence Events in <%= @country %> since January 2014</h4> 
+  <canvas id="myChart" class="extendedTimeChart" width="1000" height="400"></canvas>
   
 </div>
 
 <script>
+
   var data = {
-      labels: <%= raw @days %>,
+      labels: <%= raw @each_month %>,
       datasets: [
           {
-              label: "My First dataset",
-              fillColor: "rgba(220,220,220,0.2)",
-              strokeColor: "rgba(220,220,220,1)",
-              pointColor: "rgba(220,220,220,1)",
-              pointStrokeColor: "#fff",
-              pointHighlightFill: "#fff",
-              pointHighlightStroke: "rgba(220,220,220,1)",
+              label: "Country dataset",
+              fillColor: "rgba(440,120,120,0.2)",
+              strokeColor: "rgba(440,120,120,1)",
+              pointColor: "rgba(440,120,120,1)",
+              pointStrokeColor: "#fbb",
+              pointHighlightFill: "#fbb",
+              pointHighlightStroke: "rgba(440,120,120,1)",
               data: <%= @events_by_day %>
           }
       ]
   };
 
+
+
   var ctx = document.getElementById("myChart").getContext("2d");
 
-  var myLineChart = new Chart(ctx).Line(data);
+  var myLineChart = new Chart(ctx).Line(data, {
+    dataShowLabels: true
+  });
 </script>
 
 

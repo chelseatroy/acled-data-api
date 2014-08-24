@@ -1,116 +1,34 @@
-<div class="page">
-  <h1 class="index-header">Armed Conflict Location and Event Data</h1>
+<div class="page">    
+
+    <h2>The Data</h2>
+      <p>Click on a column name to sort by that column. Click it again to reverse the order.</p>
+      <p>Or filter by a term:
+      <input ng-model="query"></p>
+      <table>
+        <tr>
+          <th><a href="" ng-click="reverseSort('event_date')">Event Date</a></th>
+          <th><a href="" ng-click="reverseSort('event_type')">Event Type</a></th>
+          <th><a href="" ng-click="reverseSort('actor1')">Actor 1</a></th>
+          <th><a href="" ng-click="reverseSort('actor2')">Actor 2</a></th>
+          <th><a href="" ng-click="reverseSort('country')">Country</a></th>
+          <th><a href="" ng-click="reverseSort('total_fatalities')">Total Fatalities</a></th>
+          <th><a href="" ng-click="reverseSort('latitude')">Latitude</a></th>
+          <th><a href="" ng-click="reverseSort('longitude')">Longitude</a></th>
+          <th></th>
+          <th></th>
+        </tr>
+          <tr ng-repeat="event in events | orderBy:column:aToZ | filter:query">
+            <td><a href="/events/{{event.id}}">{{ event.event_date }}</a></td> 
+            <td>{{ event.event_type }}</td>
+            <td>{{ event.actor1 }}</td>
+            <td>{{ event.actor2 }}</td>
+            <td><a href="/events/countries/{{event.country}}">{{ event.country }}</a></td>
+            <td>{{ event.total_fatalities }}</td>
+            <td>{{ event.latitude }}</td>
+            <td>{{ event.longitude }}</td>
+            <td><!-- {{link_to "Edit", edit_event_path(event.id) }} --></td>
+            <td><!-- {{link_to 'Destroy',  event_path(event.id),  method: :delete, data: { confirm: 'Are you sure?' } }} --></td>
+          </tr>
+      </table>
       
-  <h3 class="index-header">Locations of Violent Events Since January</h3>
-    <div class="demo-wrapper">
-      <div id="heatmapArea" class="heatmap"></div>
-    </div>
-
-  <h3 class="index-header">Total Violent Events from the Past Month:</h3>
-    <canvas id="monthLineChart" width="880" height="400"></canvas>
-    
-</div>
-
-<script>
-
-var data = {
-    labels: <%= raw @days %>,
-    datasets: [ 
-        {
-          label: "Violent Events Over Past Month",
-          fillColor: "rgba(440,120,120,0.2)",
-          strokeColor: "rgba(440,120,120,1)",
-          pointColor: "rgba(440,120,120,1)",
-          pointStrokeColor: "#fbb",
-          pointHighlightFill: "#fbb",
-          pointHighlightStroke: "rgba(440,120,120,1)",
-          data: <%= @all_events_by_day %>
-        }
-        // {
-        //     label: "My First dataset",
-        //     fillColor: "rgba(220,220,220,0.2)",
-        //     strokeColor: "rgba(220,220,220,1)",
-        //     pointColor: "rgba(220,220,220,1)",
-        //     pointStrokeColor: "#fff",
-        //     pointHighlightFill: "#fff",
-        //     pointHighlightStroke: "rgba(220,220,220,1)",
-        //     data: <%= @test_array %>
-        // },
-        // {
-        //     label: "My Second dataset",
-        //     fillColor: "rgba(151,187,205,0.2)",
-        //     strokeColor: "rgba(151,187,205,1)",
-        //     pointColor: "rgba(151,187,205,1)",
-        //     pointStrokeColor: "#fff",
-        //     pointHighlightFill: "#fff",
-        //     pointHighlightStroke: "rgba(151,187,205,1)",
-        //     data: [28, 48, 40, 19, 86, 27, 90]
-        // }
-    ]
-};
-
-var ctx = document.getElementById("monthLineChart").getContext("2d");
-
-var myLineChart = new Chart(ctx).Line(data);
-</script>
-
-<script>
-  window.onload = function() {
-
-      // map center
-      var myLatlng = new google.maps.LatLng(17.5968801,8.0828506);
-      // map options,
-      var myOptions = {
-        zoom: 3,
-        center: myLatlng,
-        mapTypeId: google.maps.MapTypeId.HYBRID,
-        disableDefaultUI: false,
-        scrollwheel: false,
-        draggable: true,
-        navigationControl: true,
-        mapTypeControl: false,
-        scaleControl: true,
-        disableDoubleClickZoom: false
-      };
-      // standard map
-      var map = new google.maps.Map(document.getElementById("heatmapArea"), myOptions);
-      // heatmap layer
-      var heatmap = new HeatmapOverlay(map, 
-        {
-          gradient: {
-          // enter n keys between 0 and 1 here
-          // for gradient color customization
-          '.05': 'purple',
-          '.6': 'red',
-          '.9': 'white'
-          },
-          // radius should be small ONLY if scaleRadius is true (or small radius is intended)
-          "radius": 2,
-          "maxOpacity": 1, 
-          // scales the radius based on map zoom
-          "scaleRadius": true, 
-          // if set to false the heatmap uses the global maximum for colorization
-          // if activated: uses the data maximum within the current map boundaries 
-          //   (there will always be a red spot with useLocalExtremas true)
-          "useLocalExtrema": true,
-          // which field name in your data represents the latitude - default "lat"
-          latField: 'lat',
-          // which field name in your data represents the longitude - default "lng"
-          lngField: 'lng',
-          // which field name in your data represents the data value - default "value"
-          valueField: 'count'
-        }
-      );
-
-      var eventLocations = {
-        max: 8,
-        data: <%= raw @event_locations %>
-      };
-
-      heatmap.setData(eventLocations);
-
-  };
-</script>
-
-
-
+</div> 

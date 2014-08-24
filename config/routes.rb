@@ -1,23 +1,20 @@
 Rails.application.routes.draw do
 
-  root 'events#index'
-  get 'events/upload' => 'events#upload', as: :upload
-  post 'events/upload' => 'events#import', as: :import
-  get 'events/data' => 'events#data', as: :data
-  
-  # get 'events/index'
-  # get 'events/show'
+  root'events#dashboard'                    
+  get 'events/actors'    => 'events#actors',    as: :actors
+  get 'events/countries' => 'events#countries', as: :countries
+  get 'events/upload'    => 'events#upload',    as: :upload
+  post'events/upload'    => 'events#import',    as: :import
+
+  resources :events
+  get 'events/countries/:country' => 'events#by_country', as: :country
+  get 'events/actors/:actor'      => 'events#by_actor', as: :actor
 
   namespace :api do
     namespace :v1 do
       resources :events
     end
   end
-
-  resources :events
-  get 'events/countries/:country' => 'events#by_country', as: :country
-  get 'events/actors/:actor' => 'events#by_actor', as: :actor
-
 
 
   # The priority is based upon order of creation: first created -> highest priority.
