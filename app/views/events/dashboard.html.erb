@@ -2,24 +2,21 @@
   <h1 class="header">Armed Conflict Location and Event Data</h1>
       
   <h3 class="header">Locations of Violent Events Since January</h3>
-    <div class="demo-wrapper">
+    <div class="demo-wrapper single-column-chart">
       <div id="heatmapArea" class="heatmap"></div>
     </div>
 
   <h3 class="header">Total Violent Events from the Past Month:</h3>
-    <canvas id="monthLineChart" width="880" height="400"></canvas>
+    <canvas id="monthLineChart" class="single-column-chart" width="880" height="400"></canvas>
 
   <div class="circle-chart-box grid_6">
-    <canvas id="countryPieChart" width="400" height="400"></canvas>
+    <h4>Breakdown of Violence by Actor, Past 30 Days</h4>
+    <canvas id="actorPieChart" width="400" height="400"></canvas>
   </div>
 
   <div class="circle-chart-box grid_6">
-    <p>Source: 
-      fdbdfvjsdbcdskcnasjcd
-    </p>
-    <p>Notes: 
-      sduvhdskcvmdkscnjksdncsjkd
-    </p>
+    <h4>Breakdown of Violence by Type, Past 30 Days</h4>
+    <canvas id="typePieChart" width="400" height="400"></canvas>
   </div>
     
 </div>
@@ -39,26 +36,6 @@ var data = {
           pointHighlightStroke: "rgba(440,120,120,1)",
           data: <%= @all_events_by_day %>
         }
-        // {
-        //     label: "My First dataset",
-        //     fillColor: "rgba(220,220,220,0.2)",
-        //     strokeColor: "rgba(220,220,220,1)",
-        //     pointColor: "rgba(220,220,220,1)",
-        //     pointStrokeColor: "#fff",
-        //     pointHighlightFill: "#fff",
-        //     pointHighlightStroke: "rgba(220,220,220,1)",
-        //     data: <%= @test_array %>
-        // },
-        // {
-        //     label: "My Second dataset",
-        //     fillColor: "rgba(151,187,205,0.2)",
-        //     strokeColor: "rgba(151,187,205,1)",
-        //     pointColor: "rgba(151,187,205,1)",
-        //     pointStrokeColor: "#fff",
-        //     pointHighlightFill: "#fff",
-        //     pointHighlightStroke: "rgba(151,187,205,1)",
-        //     data: [28, 48, 40, 19, 86, 27, 90]
-        // }
     ]
 };
 
@@ -68,27 +45,29 @@ var myLineChart = new Chart(ctx).Line(data);
 </script>
 
 <script>
-//COUNTRIES PIE CHART SCRIPT
-var data = [
-    {
-        value: 300,
-        color:"#F7464A",
-        highlight: "#FF5A5E",
-        label: "Red"
-    },
-    {
-        value: 50,
-        color: "#46BFBD",
-        highlight: "#5AD3D1",
-        label: "Green"
-    },
-    {
-        value: 100,
-        color: "#FDB45C",
-        highlight: "#FFC870",
-        label: "Yellow"
-    }
-];
+//ACTORS PIE CHART SCRIPT
+var data = <%= raw @actor_chart_array %>;
+
+// [
+//     {
+//         value: 300,
+//         color:"#F7464A",
+//         highlight: "#FF5A5E",
+//         label: "Red"
+//     },
+//     {
+//         value: 50,
+//         color: "#46BFBD",
+//         highlight: "#5AD3D1",
+//         label: "Green"
+//     },
+//     {
+//         value: 100,
+//         color: "#FDB45C",
+//         highlight: "#FFC870",
+//         label: "Yellow"
+//     }
+// ];
 
 var options = {
     //Boolean - Whether we should show a stroke on each segment
@@ -117,7 +96,7 @@ var options = {
 
 };
 
-var ctx = document.getElementById("countryPieChart").getContext("2d");
+var ctx = document.getElementById("actorPieChart").getContext("2d");
 
 var myPieChart = new Chart(ctx).Pie(data,options);
 </script>

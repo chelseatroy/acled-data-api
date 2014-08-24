@@ -1,10 +1,26 @@
 <div class="page">
   <h1 class="header">Actors Committing Violence</h1>
 
-  <ol>
-    <% @actors.each do |actor| %>
-      <li><%= link_to actor, actor_path(actor) %></li>
-    <% end %>
-  </ol>
+  <div class="grid_4">
+    <ol>
+      <% @actors.each do |actor| %>
+        <li><%= link_to actor, actor_path(actor), :class => "country-link" %></li>
+      <% end %>
+    </ol>
+  </div>
+
+  <div class="grid_6">
+    <iframe id="chart-box" width="2800" height="1600" src="/"></iframe>
+  </div>
 
 </div>
+
+<script>
+  $(function(){ 
+    $(".country-link").hover(function(e) {
+      $("#chart-box").attr("src", "/events/actors/" + $(this).text());
+    });
+
+  });
+</script>
+

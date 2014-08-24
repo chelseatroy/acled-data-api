@@ -6,12 +6,107 @@ class EventsController < ApplicationController
 
     @all_events_by_day = []
     @days = []
+    @actors_in_past_days = {}
+    @types_in_past_days = {}
+
     number_of_days = 30
     number_of_days.times do |number_of|
       events = Event.where(:event_date => number_of.days.ago.to_date)
+
+      events.each do |event|
+        if @types_in_past_days.include?(event.event_type)
+          @types_in_past_days[event.event_type] += 1
+        else
+          @types_in_past_days.merge!({ event.event_type => 1})
+        end
+
+        if @actors_in_past_days.include?(event.actor1)
+          @actors_in_past_days[event.actor1] += 1
+        else
+          @actors_in_past_days.merge!({ event.actor1 => 1})
+        end
+
+        if @actors_in_past_days.include?(event.actor2)
+          @actors_in_past_days[event.actor2] += 2
+        else
+          @actors_in_past_days.merge!({ event.actor2 => 1})
+        end
+      end
+
       @all_events_by_day << events.count
       @days << number_of.days.ago.to_date.strftime("%m/%d/%Y")
     end
+
+    colors = ["#F7464A", "#FF5A5E", 
+              "#46BFBD", "#5AD3D1", 
+              "#FDB45C", "#FFC870", 
+              "#0C873F", "#12E369", 
+              "#9D12E3", "#12E369",
+              "#128FE3", "#3BA0E3",
+              "#E0620D", "#E39C6D",
+              "#E39C6D", "#F2949D",
+              "#266331", "#60E679",
+              "#F7464A", "#FF5A5E", 
+              "#46BFBD", "#5AD3D1", 
+              "#FDB45C", "#FFC870", 
+              "#0C873F", "#12E369", 
+              "#9D12E3", "#12E369",
+              "#128FE3", "#3BA0E3",
+              "#E0620D", "#E39C6D",
+              "#E39C6D", "#F2949D",
+              "#F7464A", "#FF5A5E", 
+              "#46BFBD", "#5AD3D1", 
+              "#FDB45C", "#FFC870", 
+              "#0C873F", "#12E369", 
+              "#9D12E3", "#12E369",
+              "#128FE3", "#3BA0E3",
+              "#E0620D", "#E39C6D",
+              "#E39C6D", "#F2949D",
+              "#266331", "#60E679",
+              "#F7464A", "#FF5A5E", 
+              "#46BFBD", "#5AD3D1", 
+              "#FDB45C", "#FFC870", 
+              "#0C873F", "#12E369", 
+              "#9D12E3", "#12E369",
+              "#128FE3", "#3BA0E3",
+              "#E0620D", "#E39C6D",
+              "#E39C6D", "#F2949D",
+              "#F7464A", "#FF5A5E", 
+              "#46BFBD", "#5AD3D1", 
+              "#FDB45C", "#FFC870", 
+              "#0C873F", "#12E369", 
+              "#9D12E3", "#12E369",
+              "#128FE3", "#3BA0E3",
+              "#E0620D", "#E39C6D",
+              "#E39C6D", "#F2949D",
+              "#266331", "#60E679",
+              "#F7464A", "#FF5A5E", 
+              "#46BFBD", "#5AD3D1", 
+              "#FDB45C", "#FFC870", 
+              "#0C873F", "#12E369", 
+              "#9D12E3", "#12E369",
+              "#128FE3", "#3BA0E3",
+              "#E0620D", "#E39C6D",
+              "#E39C6D", "#F2949D"
+            ]
+    i = 0 
+
+    @actor_chart_array = []
+    @actors_in_past_days.each {|key, value|
+      @actor_chart_array.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
+      i += 2
+    @actors_in_past_days = @actors_in_past_days.to_json
+    } 
+
+    i = 0
+
+    @type_chart_array = []
+    @types_in_past_days.each {|key, value|
+      @type_chart_array.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
+      i += 2
+    } 
+      
+
     @days = @days.reverse
     @all_events_by_day = @all_events_by_day.reverse.to_json
     
@@ -20,6 +115,8 @@ class EventsController < ApplicationController
       @event_locations << {lat: event.latitude, lng: event.longitude, count: 1}
     end
     @event_locations = @event_locations.to_json
+
+
   end
 
   def index
@@ -74,7 +171,7 @@ class EventsController < ApplicationController
   end
 
   def by_actor
-    @actor =  params[:actpr]
+    @actor =  params[:actor]
 
     @events_by_day = []
     @days = []
