@@ -1,13 +1,15 @@
 <div class="page">
   <h1 class="header">Armed Conflict Location and Event Data</h1>
       
-  <h3 class="header">Locations of Violent Events Since January</h3>
+  <h3 class="header">Locations of Violent Events Since June</h3>
     <div class="demo-wrapper single-column-chart">
       <div id="heatmapArea" class="heatmap"></div>
     </div>
 
   <h3 class="header">Total Violent Events from the Past Month:</h3>
     <canvas id="monthLineChart" class="single-column-chart" width="880" height="400"></canvas>
+
+  <div id="lineChartLegend()"> </div>
 
   <div class="circle-chart-box grid_6">
     <h4>Breakdown of Violence by Actor, Past 30 Days</h4>
@@ -18,87 +20,65 @@
     <h4>Breakdown of Violence by Type, Past 30 Days</h4>
     <canvas id="typePieChart" width="400" height="400"></canvas>
   </div>
+
     
 </div>
 
 <script>
-//LINE CHART PAST 30 DAYS SCRIPT
+//LINE CHART EVENTS PAST 30 DAYS SCRIPT
 var data = {
     labels: <%= raw @days %>,
     datasets: [ 
         {
-          label: "Violent Events Over Past Month",
+          label: "Violent Events",
+          fillColor: "rgba(100,100,200,0.2)",
+          strokeColor: "rgba(100,100,200,1)",
+          pointColor: "rgba(100,100,200,1)",
+          pointStrokeColor: "#bbf",
+          pointHighlightFill: "#bbf",
+          pointHighlightStroke: "rgba(100,100,200,1)",
+          data: <%= @all_events_by_day %>
+        },
+        {
+          label: "Fatalities",
           fillColor: "rgba(440,120,120,0.2)",
           strokeColor: "rgba(440,120,120,1)",
           pointColor: "rgba(440,120,120,1)",
           pointStrokeColor: "#fbb",
           pointHighlightFill: "#fbb",
           pointHighlightStroke: "rgba(440,120,120,1)",
-          data: <%= @all_events_by_day %>
+          data: <%= @all_fatalities_by_day %>
         }
+
     ]
 };
 
 var ctx = document.getElementById("monthLineChart").getContext("2d");
-
 var myLineChart = new Chart(ctx).Line(data);
+var lineChartLegend = myLineChart.generateLegend();
 </script>
 
 <script>
 //ACTORS PIE CHART SCRIPT
-var data = <%= raw @actor_chart_array %>;
-
-// [
-//     {
-//         value: 300,
-//         color:"#F7464A",
-//         highlight: "#FF5A5E",
-//         label: "Red"
-//     },
-//     {
-//         value: 50,
-//         color: "#46BFBD",
-//         highlight: "#5AD3D1",
-//         label: "Green"
-//     },
-//     {
-//         value: 100,
-//         color: "#FDB45C",
-//         highlight: "#FFC870",
-//         label: "Yellow"
-//     }
-// ];
-
-var options = {
-    //Boolean - Whether we should show a stroke on each segment
-    segmentShowStroke : true,
-
-    //String - The colour of each segment stroke
-    segmentStrokeColor : "#fff",
-
-    //Number - The width of each segment stroke
-    segmentStrokeWidth : 2,
-
-    //Number - The percentage of the chart that we cut out of the middle
-    percentageInnerCutout : 50, // This is 0 for Pie charts
-
-    //Number - Amount of animation steps
-    animationSteps : 100,
-
-    //String - Animation easing effect
-    animationEasing : "easeOutBounce",
-
-    //Boolean - Whether we animate the rotation of the Doughnut
-    animateRotate : true,
-
-    //Boolean - Whether we animate scaling the Doughnut from the centre
-    animateScale : false
-
-};
+var data = <%= raw @actor_chart_array.to_json %>;
 
 var ctx = document.getElementById("actorPieChart").getContext("2d");
 
-var myPieChart = new Chart(ctx).Pie(data,options);
+var myPieChart = new Chart(ctx).Pie(data, {
+  percentageInnerCutout : 30
+});
+</script>
+
+<script>
+//TYPES PIE CHART SCRIPT
+var data = <%= raw @type_chart_array.to_json %>;
+
+var ctx = document.getElementById("typePieChart").getContext("2d");
+
+
+var myPieChart = new Chart(ctx).Pie(data, {
+  percentageInnerCutout : 30
+});
 </script>
 
 <script>

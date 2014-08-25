@@ -4,6 +4,15 @@
 
   <h4>Violence Events by <%= @actor %> since January 2014</h4> 
   <canvas id="myChart" class="extendedTimeChart" width="1000" height="400"></canvas>
+
+  <div class="circle-chart-box grid_6">
+    <h4>Death Score: <%= @fatality_score %></h4>
+  </div>
+
+  <div class="circle-chart-box grid_6">
+    <h4>Violence bt <%= @actor %> by Type</h4>
+    <canvas id="typePieChart" width="400" height="400"></canvas>
+  </div>
   
 </div>
 
@@ -12,21 +21,54 @@
       labels: <%= raw @each_month %>,
       datasets: [
           {
-              label: "My First dataset",
-              fillColor: "rgba(220,220,220,0.2)",
-              strokeColor: "rgba(220,220,220,1)",
-              pointColor: "rgba(220,220,220,1)",
-              pointStrokeColor: "#fff",
-              pointHighlightFill: "#fff",
-              pointHighlightStroke: "rgba(220,220,220,1)",
+              label: "Actor dataset",
+              fillColor: "rgba(100,100,200,0.2)",
+              strokeColor: "rgba(100,100,200,1)",
+              pointColor: "rgba(100,100,200,1)",
+              pointStrokeColor: "#bbf",
+              pointHighlightFill: "#bbf",
+              pointHighlightStroke: "rgba(100,100,200,1)",
               data: <%= @events_by_day %>
-          }
+          },
+          {
+          label: "Fatalities",
+          fillColor: "rgba(440,120,120,0.2)",
+          strokeColor: "rgba(440,120,120,1)",
+          pointColor: "rgba(440,120,120,1)",
+          pointStrokeColor: "#fbb",
+          pointHighlightFill: "#fbb",
+          pointHighlightStroke: "rgba(440,120,120,1)",
+          data: <%= @fatalities_by_day %>
+        }
       ]
   };
 
   var ctx = document.getElementById("myChart").getContext("2d");
 
   var myLineChart = new Chart(ctx).Line(data);
+</script>
+
+<script>
+//ACTORS PIE CHART SCRIPT
+  var data = <%= raw @actor_chart_array.to_json %>;
+
+  var ctx = document.getElementById("actorPieChart").getContext("2d");
+
+  var myPieChart = new Chart(ctx).Pie(data, {
+    percentageInnerCutout : 30
+  });
+</script>
+
+<script>
+//TYPES PIE CHART SCRIPT
+  var data = <%= raw @type_chart_array.to_json %>;
+
+  var ctx = document.getElementById("typePieChart").getContext("2d");
+
+
+  var myPieChart = new Chart(ctx).Pie(data, {
+    percentageInnerCutout : 30
+  });
 </script>
 
 

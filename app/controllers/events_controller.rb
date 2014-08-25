@@ -5,6 +5,7 @@ class EventsController < ApplicationController
     @events = Event.all
 
     @all_events_by_day = []
+    @all_fatalities_by_day = []
     @days = []
     @actors_in_past_days = {}
     @types_in_past_days = {}
@@ -12,6 +13,8 @@ class EventsController < ApplicationController
     number_of_days = 30
     number_of_days.times do |number_of|
       events = Event.where(:event_date => number_of.days.ago.to_date)
+
+      this_event_fatalities = 0
 
       events.each do |event|
         if @types_in_past_days.include?(event.event_type)
@@ -31,9 +34,12 @@ class EventsController < ApplicationController
         else
           @actors_in_past_days.merge!({ event.actor2 => 1})
         end
+
+        this_event_fatalities += event.total_fatalities
       end
 
       @all_events_by_day << events.count
+      @all_fatalities_by_day << this_event_fatalities
       @days << number_of.days.ago.to_date.strftime("%m/%d/%Y")
     end
 
@@ -45,63 +51,20 @@ class EventsController < ApplicationController
               "#128FE3", "#3BA0E3",
               "#E0620D", "#E39C6D",
               "#E39C6D", "#F2949D",
-              "#266331", "#60E679",
-              "#F7464A", "#FF5A5E", 
-              "#46BFBD", "#5AD3D1", 
-              "#FDB45C", "#FFC870", 
-              "#0C873F", "#12E369", 
-              "#9D12E3", "#12E369",
-              "#128FE3", "#3BA0E3",
-              "#E0620D", "#E39C6D",
-              "#E39C6D", "#F2949D",
-              "#F7464A", "#FF5A5E", 
-              "#46BFBD", "#5AD3D1", 
-              "#FDB45C", "#FFC870", 
-              "#0C873F", "#12E369", 
-              "#9D12E3", "#12E369",
-              "#128FE3", "#3BA0E3",
-              "#E0620D", "#E39C6D",
-              "#E39C6D", "#F2949D",
-              "#266331", "#60E679",
-              "#F7464A", "#FF5A5E", 
-              "#46BFBD", "#5AD3D1", 
-              "#FDB45C", "#FFC870", 
-              "#0C873F", "#12E369", 
-              "#9D12E3", "#12E369",
-              "#128FE3", "#3BA0E3",
-              "#E0620D", "#E39C6D",
-              "#E39C6D", "#F2949D",
-              "#F7464A", "#FF5A5E", 
-              "#46BFBD", "#5AD3D1", 
-              "#FDB45C", "#FFC870", 
-              "#0C873F", "#12E369", 
-              "#9D12E3", "#12E369",
-              "#128FE3", "#3BA0E3",
-              "#E0620D", "#E39C6D",
-              "#E39C6D", "#F2949D",
-              "#266331", "#60E679",
-              "#F7464A", "#FF5A5E", 
-              "#46BFBD", "#5AD3D1", 
-              "#FDB45C", "#FFC870", 
-              "#0C873F", "#12E369", 
-              "#9D12E3", "#12E369",
-              "#128FE3", "#3BA0E3",
-              "#E0620D", "#E39C6D",
-              "#E39C6D", "#F2949D"
+              "#266331", "#60E679"
             ]
     i = 0 
 
     @actor_chart_array = []
     @actors_in_past_days.each {|key, value|
+      i = 0 unless colors[i+1]
       @actor_chart_array.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
       i += 2
-    @actors_in_past_days = @actors_in_past_days.to_json
     } 
-
-    i = 0
 
     @type_chart_array = []
     @types_in_past_days.each {|key, value|
+      i = 0 unless colors[i+1]
       @type_chart_array.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
       i += 2
     } 
@@ -109,6 +72,7 @@ class EventsController < ApplicationController
 
     @days = @days.reverse
     @all_events_by_day = @all_events_by_day.reverse.to_json
+    @all_fatalities_by_day = @all_fatalities_by_day.reverse.to_json
     
     @event_locations = []
     @events.each do |event| 
@@ -131,7 +95,6 @@ class EventsController < ApplicationController
 
   def countries
     @events = Event.all
-    # @countries = @events.map(&:country).uniq
     @countries = Event.uniq.pluck(:country)
   end
 
@@ -148,12 +111,43 @@ class EventsController < ApplicationController
 
     @events_by_day = []
     @days = []
+    @types_in_past_days = {}
+    @actors_in_past_days = {}
+    @fatalities_by_day = []
+
     number_of_days = 240
     number_of_days.times do |number_of|
       events = Event.where(:country => params[:country], :event_date => number_of.days.ago.to_date)
+
+      this_event_fatalities = 0
+
+      events.each do |event|
+        if @types_in_past_days.include?(event.event_type)
+          @types_in_past_days[event.event_type] += 1
+        else
+          @types_in_past_days.merge!({ event.event_type => 1})
+        end
+
+        if @actors_in_past_days.include?(event.actor1)
+          @actors_in_past_days[event.actor1] += 1
+        else
+          @actors_in_past_days.merge!({ event.actor1 => 1})
+        end
+
+        if @actors_in_past_days.include?(event.actor2)
+          @actors_in_past_days[event.actor2] += 2
+        else
+          @actors_in_past_days.merge!({ event.actor2 => 1})
+        end
+
+        this_event_fatalities += event.total_fatalities
+      end
+
       @events_by_day << events.count
+      @fatalities_by_day << this_event_fatalities
       @days << number_of.days.ago.to_date.strftime("%m/%d/%Y")
     end
+
     @events_by_day = @events_by_day.reverse
     @days = @days.reverse
     @count = 0
@@ -168,6 +162,35 @@ class EventsController < ApplicationController
         @each_month << ""
       end
     end
+
+    colors = ["#F7464A", "#FF5A5E", 
+              "#46BFBD", "#5AD3D1", 
+              "#FDB45C", "#FFC870", 
+              "#0C873F", "#12E369", 
+              "#9D12E3", "#12E369",
+              "#128FE3", "#3BA0E3",
+              "#E0620D", "#E39C6D",
+              "#E39C6D", "#F2949D",
+              "#266331", "#60E679"
+            ]
+    i = 0 
+
+    @actor_chart_array = []
+    @actors_in_past_days.each {|key, value|
+      i = 0 unless colors[i+1]
+      @actor_chart_array.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
+      i += 2
+    } 
+
+    @type_chart_array = []
+    @types_in_past_days.each {|key, value|
+      i = 0 unless colors[i+1]
+      @type_chart_array.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
+      i += 2
+    } 
+      
+    @fatalities_by_day = @fatalities_by_day.reverse.to_json
+
   end
 
   def by_actor
@@ -175,11 +198,30 @@ class EventsController < ApplicationController
 
     @events_by_day = []
     @days = []
+    @types_in_past_days = {}
+    @fatalities_by_day = []
+
     number_of_days = 240
     number_of_days.times do |number_of|
+
       events = (Event.where(:actor1 => params[:actor], :event_date => number_of.days.ago.to_date) + Event.where(:actor2 => params[:actor], :event_date => number_of.days.ago.to_date)).uniq.compact
+      
+      this_event_fatalities = 0
+      
+      events.each do |event|
+        if @types_in_past_days.include?(event.event_type)
+          @types_in_past_days[event.event_type] += 1
+        else
+          @types_in_past_days.merge!({ event.event_type => 1})
+        end
+
+        this_event_fatalities += event.total_fatalities
+      end
+
       @events_by_day << events.count
+      @fatalities_by_day << this_event_fatalities
       @days << number_of.days.ago.to_date.strftime("%m/%d/%Y")
+
     end
     @events_by_day = @events_by_day.reverse
     @days = @days.reverse
@@ -195,6 +237,28 @@ class EventsController < ApplicationController
         @each_month << ""
       end
     end
+
+    colors = ["#F7464A", "#FF5A5E", 
+              "#46BFBD", "#5AD3D1", 
+              "#FDB45C", "#FFC870", 
+              "#0C873F", "#12E369", 
+              "#9D12E3", "#12E369",
+              "#128FE3", "#3BA0E3",
+              "#E0620D", "#E39C6D",
+              "#E39C6D", "#F2949D",
+              "#266331", "#60E679"
+            ]
+    i = 0  
+
+    @type_chart_array = []
+    @types_in_past_days.each {|key, value|
+      i = 0 unless colors[i+1]
+      @type_chart_array.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
+      i += 2
+    } 
+      
+    @fatalities_by_day = @fatalities_by_day.reverse.to_json
+    @fatality_score = @fatalities_by_day.sum.to_f / @days.sum.to_f
   end
 
   end
