@@ -3,7 +3,10 @@
   <h1 class="header">Violence by <%= @actor %></h1>
 
   <h4>Violence Events by <%= @actor %> since January 2014</h4> 
-  <canvas id="myChart" class="extendedTimeChart" width="1000" height="400"></canvas>
+  <canvas id="myChart" class="extendedTimeChart grid_9" width="1000" height="400"></canvas>
+
+  <div id="line-chart-legend" class="baby-box grid_2"></div>
+
 
   <div class="circle-chart-box grid_6">
     <h4>Death Score: <%= @fatality_score %></h4>
@@ -21,7 +24,7 @@
       labels: <%= raw @each_month %>,
       datasets: [
           {
-              label: "Actor dataset",
+              label: "Violent Events",
               fillColor: "rgba(100,100,200,0.2)",
               strokeColor: "rgba(100,100,200,1)",
               pointColor: "rgba(100,100,200,1)",
@@ -43,9 +46,16 @@
       ]
   };
 
-  var ctx = document.getElementById("myChart").getContext("2d");
+  var legend = "<ul style=\"list-style-type: none;\">";
+  for(var i = 0; i < data["datasets"].length; i++){
+    legend += "<li><div style=\"background-color:" + data["datasets"][i]["pointColor"] + "; height: 20px; width: 20px; float: left; margin: 5px;\"></div>" + data["datasets"][i]["label"] + "</li>"
+  }
+  legend += "</ul>"
 
+  var ctx = document.getElementById("myChart").getContext("2d");
   var myLineChart = new Chart(ctx).Line(data);
+
+  document.getElementById("line-chart-legend").innerHTML = legend;
 </script>
 
 <script>

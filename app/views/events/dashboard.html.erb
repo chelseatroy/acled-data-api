@@ -7,10 +7,10 @@
     </div>
 
   <h3 class="header">Total Violent Events from the Past Month:</h3>
-    <canvas id="monthLineChart" class="single-column-chart" width="880" height="400"></canvas>
+    <canvas id="monthLineChart" class="single-column-chart grid_9" width="880" height="400"></canvas>
 
-<!--   <div id="line-chart-legend grid_2" class="baby-box"></div>
- -->
+  <div id="line-chart-legend" class="baby-box grid_2"></div>
+
   <div class="circle-chart-box grid_6">
     <h4>Breakdown of Violence by Actor, Past 30 Days</h4>
     <canvas id="actorPieChart" width="400" height="400"></canvas>
@@ -53,16 +53,16 @@
       ]
   };
 
-  // var legend = "<ul>";
-  // for(var i = 0; i < data[datasets].length; i++){
-  //   legend += "<li><div style=\"background-color:" + data[datasets][i][pointColor] + "height: 100px; width: 100px; float: left\"></div>" + data[datasets][i][label] + "</li>"
-  // }
-  // legend += "</ul>"
+  var legend = "<ul style=\"list-style-type: none;\">";
+  for(var i = 0; i < data["datasets"].length; i++){
+    legend += "<li><div style=\"background-color:" + data["datasets"][i]["pointColor"] + "; height: 20px; width: 20px; float: left; margin: 5px;\"></div>" + data["datasets"][i]["label"] + "</li>"
+  }
+  legend += "</ul>"
 
   var ctx = document.getElementById("monthLineChart").getContext("2d");
   var myLineChart = new Chart(ctx).Line(data);
 
-  // document.getElementById("line-chart-legend").innerHTML = legend;
+  document.getElementById("line-chart-legend").innerHTML = legend;
 </script>
 
 <script>
