@@ -8,6 +8,10 @@
   background-color: #F5F5F5;
 }
 
+.baby-box{
+  @include rounded-box;
+}
+
 .border-box{
   height: 300px;
   @include rounded-box;

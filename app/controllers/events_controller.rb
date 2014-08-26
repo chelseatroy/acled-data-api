@@ -257,8 +257,8 @@ class EventsController < ApplicationController
       i += 2
     } 
       
+    @fatality_score = (@fatalities_by_day.sum.to_f / @days.length.to_f).round(4)
     @fatalities_by_day = @fatalities_by_day.reverse.to_json
-    @fatality_score = @fatalities_by_day.sum.to_f / @days.sum.to_f
   end
 
   end
