@@ -1,20 +1,20 @@
-<div class="page">
+
   
   <h2 class="show">
     <%= @event.country %>: <%= @event.event_date.strftime("%b %d, %Y") %>  
   </h2>
 
   <div class="border-box grid_4">
-    <p>Event Type: 
+    <p><strong>Event Type:</strong> 
       <%= @event.event_type %>
     </p>
-    <p>Actor 1: 
+    <p><strong>Actor 1:</strong> 
       <%= @event.actor1 %>
     </p>
-    <p>Actor 2: 
+    <p><strong>Actor 2:</strong> 
       <%= @event.actor2 %>
     </p>
-    <p>Fatalities: 
+    <p><strong>Fatalities:</strong>
       <%= @event.total_fatalities %>
     </p>
   </div>
@@ -24,15 +24,14 @@
   </div>
 
   <div class="border-box grid_4">
-    <p>Source: 
+    <p><strong>Source:</strong> 
       <%= @event.source %>
     </p>
-    <p>Notes: 
+    <p><strong>Notes:</strong> 
       <%= @event.notes %>
     </p>
   </div>
-  
-</div>
+
 
     <script>
       var data = {

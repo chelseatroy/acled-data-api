@@ -256,8 +256,8 @@ class EventsController < ApplicationController
       @type_chart_array.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
       i += 2
     } 
-      
-    @fatality_score = (@fatalities_by_day.sum.to_f / @days.length.to_f).round(4)
+    @activity_score = (@events_by_day.sum.to_f / @days.length.to_f).round(4)
+    @fatality_score = (@fatalities_by_day.sum.to_f / @events_by_day.sum.to_f).round(4)
     @fatalities_by_day = @fatalities_by_day.reverse.to_json
   end
 

@@ -1,9 +1,32 @@
 // Place all the styles related to the events controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+//UNIVERSAL STYLING (on top so it can sometimes be overridden)
+body {
+  background-image: image-url("binding_dark.png"); 
+}
+
+h1, h2, h3, h4, p{
+    
+  color: #F5F5F5;
+}
+
+.header{
+  padding: 10px 0 0 0;
+  text-align: center;
+  color: #F5F5F5;
+}
+
+#page{
+  padding: 0 40px 0 40px;
+}
+
+
+//SPECIFIC STYLING
+
 @mixin rounded-box{
   padding: 10px;
-  // border: 5px outset #999; 
   border-radius: 5px;
   background-color: #F5F5F5;
 }
@@ -15,6 +38,9 @@
 .border-box{
   height: 300px;
   @include rounded-box;
+  p, h4 {
+    color: black;
+  }
 }
 
 .circle-chart-box{
@@ -39,10 +65,6 @@
   height: 100%;
 }
 
-.header{
-  padding: 10px 0 0 0;
-  text-align: center;
-}
 
 div#heatmapArea {
     width:1060px;
@@ -52,9 +74,6 @@ div#heatmapArea {
     position:relative;
 }
 
-.page{
-  padding: 0 40px 0 40px;
-}
 
 .single-column-chart{
   text-align: center;
@@ -62,7 +81,6 @@ div#heatmapArea {
 
 h2.show{
   text-align: center;
-  // font-family: 
 }
 
 iframe.frame {

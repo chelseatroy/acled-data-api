@@ -16,6 +16,7 @@
 
   <body>
 
+
     <div class="sticky">
         <nav class="top-bar" data-topbar>
           <ul class="title-area">
@@ -56,11 +57,13 @@
     <div ng-app="app">
       <div ng-controller="eventsCtrl">
 
+      <div id="page">
         <% flash.each do |name, msg| %>
           <%= content_tag :div, msg, class: "alert alert-#{name}" %>
         <% end %>
 
         <%= yield %>
+      </div>
 
       </div>
     </div>
