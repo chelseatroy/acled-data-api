@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 #NON-DEFAULT GEMS
 
+#admin authentication
+gem 'devise'
 #creating a seed file so others can view app with data
 gem 'seed_dump'
 #CSS

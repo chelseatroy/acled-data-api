@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  devise_for :admins
   root'events#dashboard'                    
   get 'events/actors'    => 'events#actors',    as: :actors
   get 'events/countries' => 'events#countries', as: :countries
@@ -9,6 +10,7 @@ Rails.application.routes.draw do
   resources :events
   get 'events/countries/:country' => 'events#by_country', as: :country
   get 'events/actors/:actor'      => 'events#by_actor', as: :actor
+
 
   namespace :api do
     namespace :v1 do

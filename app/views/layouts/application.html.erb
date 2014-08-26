@@ -34,7 +34,11 @@
               <li class="has-dropdown">
                 <a href="#">I'm from ACLED</a>
                 <ul class="dropdown">
-                  <li><a href="#">Sign In</a></li>
+                  <% if admin_signed_in? %>
+                    <li><%= link_to('Sign Out', destroy_admin_session_path, :method => :delete) %></li>
+                  <% else %>
+                    <li><a href="<%= new_admin_session_path %>">Sign In</a></li>
+                  <% end %>
                 </ul>
               </li>
             </ul>
@@ -44,6 +48,7 @@
               <li><a href="<%= events_path %>">See the Data</a></li>
               <li><a href="<%= new_event_path %>">Report an Event Near You</a></li>
             </ul>
+            </ul>
           </section>
         </nav>
       </div>
@@ -51,7 +56,11 @@
     <div ng-app="app">
       <div ng-controller="eventsCtrl">
 
-          <%= yield %>
+        <% flash.each do |name, msg| %>
+          <%= content_tag :div, msg, class: "alert alert-#{name}" %>
+        <% end %>
+
+        <%= yield %>
 
       </div>
     </div>
