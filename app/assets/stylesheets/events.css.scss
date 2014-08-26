@@ -8,7 +8,6 @@ body {
 }
 
 h1, h2, h3, h4, p{
-    
   color: #F5F5F5;
 }
 
@@ -40,6 +39,7 @@ h1, h2, h3, h4, p{
   @include rounded-box;
   p, h4 {
     color: black;
+    padding: 0 0 5px 0;
   }
 }
 
@@ -63,6 +63,8 @@ h1, h2, h3, h4, p{
 .heatmap {
   width: 100%;
   height: 100%;
+  border: solid 10px #F5F5F5;
+  border-radius: 5px;
 }
 
 
