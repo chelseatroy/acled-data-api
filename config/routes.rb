@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'events/countries' => 'events#countries', as: :countries
   get 'events/upload'    => 'events#upload',    as: :upload
   post'events/upload'    => 'events#import',    as: :import
+  get 'events/admin'     => 'events#admin',     as: :admin_dashboard
 
   resources :events
   get 'events/countries/:country' => 'events#by_country', as: :country
@@ -15,8 +16,11 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :events
+      post 'events/:id/approve' => 'events#approve', as: :approve
+      post 'events/:id/deny' => 'events#destroy', as: :deny
     end
   end
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.

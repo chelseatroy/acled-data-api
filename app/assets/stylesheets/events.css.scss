@@ -30,6 +30,17 @@ h1, h2, h3, h4, p{
   background-color: #F5F5F5;
 }
 
+.approve-event{
+  background-color: #AAEDBA;
+}
+.edit-event{
+  background-color: #F0D57D;
+}
+.delete-event{
+  background-color: #ED8164;
+  color: white;
+}
+
 .baby-box{
   @include rounded-box;
 }
@@ -96,4 +107,16 @@ iframe.frame {
   -o-transform-origin: 0px 50px;
   -webkit-transform: scale(0.5);
   -webkit-transform-origin: 0 0;
+}
+
+.previous, .next{
+  color: white;
+  background-color: #008CBA;
+  border-radius: 10px;
+}
+
+.sign-in-button{
+  background-color: blue;
+  color: white;
+  padding: 0 0 10px 0;
 }

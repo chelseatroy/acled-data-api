@@ -1,11 +1,9 @@
+<div ng-controller="badminsCtrl">
 
-  <div ng-controller="eventsCtrl">   
-
-    <h2>The Data</h2>
-      <p>Click on a column name to sort by that column. Click it again to reverse the order.</p>
-      <p>Or filter by a term:
-      <input ng-model="query"></p>
-      <ul class="pagination">
+  <h2>Manage Event Submissions</h2>
+    <p>Click on a column name to sort by that column. Click it again to reverse the order.</p>
+    <p>Filter by a term:<input ng-model="query"></p>
+    <ul class="pagination">
         <div class="grid_5">
           <li class="previous" ng-click="next('prev')"><a href="">&larr; Previous Page</a></li>
         </div>
@@ -29,6 +27,7 @@
           <th><a href="" ng-click="reverseSort('longitude')">Longitude</a></th>
           <th></th>
           <th></th>
+          <th></th>
         </tr>
           <tr ng-repeat="event in events | orderBy:column:aToZ | filter:query">
             <td><a href="/events/{{event.id}}">{{ event.event_date }}</a></td> 
@@ -39,8 +38,9 @@
             <td>{{ event.total_fatalities }}</td>
             <td>{{ event.latitude }}</td>
             <td>{{ event.longitude }}</td>
-            <td><!--{{link_to "Edit", edit_event_path(event.id) }} --></td>
-            <td><!-- {{link_to 'Destroy',  event_path(event.id),  method: :delete, data: { confirm: 'Are you sure?' } }} --></td>
+            <td class="approve-event" ng-click="approve(event)">Approve</td>
+            <td class="edit-event"><a href="/events/{{event.id}}/edit">Edit</a></td>
+            <td class="delete-event" ng-click="deny(event)">Delete</td>
           </tr>
       </table>
 

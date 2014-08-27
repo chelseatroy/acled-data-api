@@ -1,6 +1,9 @@
 require 'csv'
 class EventsController < ApplicationController
 
+  def admin
+  end
+
   def dashboard
     @events = Event.all
 
@@ -221,7 +224,6 @@ class EventsController < ApplicationController
       @events_by_day << events.count
       @fatalities_by_day << this_event_fatalities
       @days << number_of.days.ago.to_date.strftime("%m/%d/%Y")
-
     end
     @events_by_day = @events_by_day.reverse
     @days = @days.reverse
@@ -261,15 +263,32 @@ class EventsController < ApplicationController
     @fatalities_by_day = @fatalities_by_day.reverse.to_json
   end
 
-  end
-
   def new
+    @event = Event.new
   end
 
   def create
+    Event.create(event_params)
+    flash[:success] = "Event created."
+    redirect_to root_path
   end
 
   def upload
+  end
+
+  def edit
+    @event = Event.find_by(:id => params[:id])
+  end
+
+  def update
+    @event = Event.find_by(:id => params[:id])
+    @event.update(event_params)
+    redirect_to admin_dashboard_path
+  end
+
+  def destroy
+    @event = Event.find_by(:id => params[:id])
+    @event.destroy
   end
 
   def import
@@ -295,6 +314,7 @@ class EventsController < ApplicationController
       end
     end
   end
+end
 
 
 

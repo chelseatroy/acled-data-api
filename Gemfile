@@ -19,7 +19,11 @@ gem 'rails', '4.1.1'
 #for development db
 gem 'mysql2'
 #for prividing irb session inside rails server
-gem 'pry'
+gem 'quiet_assets', group: :development
+#pagination
+gem 'will_paginate', '~> 3.0'
+#locating
+gem 'geocoder'
 
 #DEFAULT GEMS
 

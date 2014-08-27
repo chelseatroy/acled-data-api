@@ -1,9 +1,15 @@
 class Api::V1::EventsController < ApplicationController
 
-  before_action :restrict_access, :only => [:create, :update, :destroy]
+  # TODO: Add this back: 
+  # before_action :restrict_access, :only => [:create, :update, :destroy]
 
   def index
-    @events = Event.all
+    if params[:approved]=="false"
+      @events = Event.where(:approved => false)
+    else
+      @events = Event.all
+    end 
+    render json: @events.paginate(per_page: 20, page: params[:page])
   end
 
   def create
@@ -23,12 +29,19 @@ class Api::V1::EventsController < ApplicationController
   def destroy
     @event = Event.find_by(:id => params[:id])
     @event.destroy
+    respond_with @event
   end
 
-  private
+  def approve
+    @event = Event.find_by(:id => params[:id])
+    @event.update(:approved => true)
+    respond_with @event
+  end
 
-  def event_params
-    return params.require(:event).permit(:event_date, :year, :event_type, :actor1, :actor2, :interaction, :country, :source, :notes, :total_fatalities, :latitude, :longitude)
+  def deny
+    @event = Event.find_by(:id => params[:id])
+    @event.destroy
+    respond_with @event
   end
 
 end

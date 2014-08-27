@@ -1,39 +1,39 @@
 <h1>Create New Event</h1>
 
 <div class="form">
-  <%= form_tag(events_path) do %>
+  <%= form_for(@event) do |f| %>
     <fieldset>
-      <%= label_tag :event_date %>
-      <%= text_field_tag :event_date %><br/>
+      <%= f.label :event_date %>
+      <%= f.text_field :event_date %><br/>
 
-      <%= label_tag :event_type %>
-      <%= text_field_tag :event_type %><br/>
+      <%= f.label :event_type %>
+      <%= f.text_field :event_type %><br/>
 
-      <%= label_tag :actor1 %>
-      <%= text_field_tag :actor1 %><br/>
+      <%= f.label :actor1 %>
+      <%= f.text_field :actor1 %><br/>
 
-      <%= label_tag :actor2 %>
-      <%= text_field_tag :actor2 %><br/>
+      <%= f.label :actor2 %>
+      <%= f.text_field :actor2 %><br/>
 
-      <%= label_tag :country %>
-      <%= text_field_tag :country %><br/>
+      <%= f.label :country %>
+      <%= f.text_field :country %><br/>
 
-      <%= label_tag :source %>
-      <%= text_field_tag :source %><br/>
+      <%= f.label :source %>
+      <%= f.text_field :source %><br/>
 
-      <%= label_tag :notes %>
-      <%= text_field_tag :notes %><br/>
+      <%= f.label :notes %>
+      <%= f.text_field :notes %><br/>
 
-      <%= label_tag :total_fatalities %>
-      <%= text_field_tag :total_fatalities %><br/>
+      <%= f.label :total_fatalities %>
+      <%= f.text_field :total_fatalities %><br/>
 
-      <%= label_tag :latitude %>
-      <%= text_field_tag :latitude %><br/>
+      <%= f.label :latitude %>
+      <%= f.text_field :latitude %><br/>
 
-      <%= label_tag :longitude %>
-      <%= text_field_tag :longitude %><br/>
+      <%= f.label :longitude %>
+      <%= f.text_field :longitude %><br/>
 
-      <%= submit_tag "Create Event" %>
+      <%= f.submit "Create Event" %>
     </fieldset>
   <% end %>
 </div>
