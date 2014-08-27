@@ -3,18 +3,13 @@
   <h2>Manage Event Submissions</h2>
     <p>Click on a column name to sort by that column. Click it again to reverse the order.</p>
     <p>Filter by a term:<input ng-model="query"></p>
-    <ul class="pagination">
-        <div class="grid_5">
-          <li class="previous" ng-click="next('prev')"><a href="">&larr; Previous Page</a></li>
-        </div>
-        <div class="grid_1">
-          <li><label class="label label-info">Page: {{ page }}</label></li>
-        </div>
-        <div class="grid_3"></div>
-        <div>
-          <li class="next" ng-click="next('next')"><a href="">Next Page &rarr;</a></li>
-        </div>
-    </ul>
+      <div class="pagination-centered">
+        <ul class="pagination">
+            <li class="previous" ng-click="next('prev')"><a href="">&larr; Previous Page</a></li>
+            <li><label class="label label-info">Page: {{ page }}</label></li>
+            <li class="next" ng-click="next('next')"><a href="">Next Page &rarr;</a></li>
+        </ul>
+      </div>
       <table>
         <tr>
           <th><a href="" ng-click="reverseSort('event_date')">Event Date</a></th>
