@@ -269,7 +269,7 @@ class EventsController < ApplicationController
 
   def create
     Event.create(event_params)
-    flash[:success] = "Event created."
+    flash[:notice] = "Event created."
     redirect_to root_path
   end
 
