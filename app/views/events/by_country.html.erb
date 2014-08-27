@@ -70,7 +70,7 @@
   var ctx = document.getElementById("actorPieChart").getContext("2d");
 
   var myPieChart = new Chart(ctx).Pie(data, {
-    percentageInnerCutout : 30
+    percentageInnerCutout : 30, segmentShowStroke: false, animationEasing: "easeOutQuart"
   });
 </script>
 
@@ -82,7 +82,7 @@
 
 
   var myPieChart = new Chart(ctx).Pie(data, {
-    percentageInnerCutout : 30
+    percentageInnerCutout : 30, segmentShowStroke: false, animationEasing: "easeOutQuart"
   });
 </script>
 

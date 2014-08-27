@@ -2,19 +2,21 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+
+$primary-text-color: #F5F5F5;
 //UNIVERSAL STYLING (on top so it can sometimes be overridden)
 body {
   background-image: image-url("binding_dark.png"); 
 }
 
-h1, h2, h3, h4, p{
-  color: #F5F5F5;
+h1, h2, h3, h4, p, label{
+  color: $primary-text-color;
 }
 
 .header{
   padding: 10px 0 0 0;
   text-align: center;
-  color: #F5F5F5;
+  color: $primary-text-color;
 }
 
 #page{
@@ -86,7 +88,6 @@ div#heatmapArea {
     cursor:pointer;
     position:relative;
 }
-
 
 .single-column-chart{
   text-align: center;

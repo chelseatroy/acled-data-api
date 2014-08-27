@@ -32,17 +32,12 @@
             <ul class="right">
               <li class="active"><a href="<%= countries_path %>">By Country</a></li>
               <li class="active"><a href="<%= actors_path %>">By Actor</a></li>
-              <li class="has-dropdown">
-                <a href="#">I'm from ACLED</a>
-                <ul class="dropdown">
                   <% if admin_signed_in? %>
                     <li><%= link_to('Sign Out', destroy_admin_session_path, :method => :delete) %></li>
                   <% else %>
-                    <li><a href="<%= new_admin_session_path %>">Sign In</a></li>
+                    <li><a href="<%= new_admin_session_path %>">I'm from ACLED</a></li>
                   <% end %>
                 </ul>
-              </li>
-            </ul>
 
             <!-- Left Nav Section -->
             <ul class="left">

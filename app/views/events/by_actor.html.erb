@@ -59,16 +59,6 @@
   document.getElementById("line-chart-legend").innerHTML = legend;
 </script>
 
-<script>
-//ACTORS PIE CHART SCRIPT
-  var data = <%= raw @actor_chart_array.to_json %>;
-
-  var ctx = document.getElementById("actorPieChart").getContext("2d");
-
-  var myPieChart = new Chart(ctx).Pie(data, {
-    percentageInnerCutout : 30
-  });
-</script>
 
 <script>
 //TYPES PIE CHART SCRIPT
@@ -78,7 +68,7 @@
 
 
   var myPieChart = new Chart(ctx).Pie(data, {
-    percentageInnerCutout : 30
+    percentageInnerCutout : 30, segmentShowStroke: false, animationEasing: "easeOutQuart"
   });
 </script>
 
