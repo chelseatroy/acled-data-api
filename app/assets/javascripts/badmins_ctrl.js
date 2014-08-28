@@ -1,6 +1,6 @@
 (function(){
 
-  angular.module("app").controller("badminsCtrl", function($scope, $http){
+  angular.module("app").controller("badminsCtrl", ['$scope', '$http',function($scope, $http){
 
     $scope.page = 1;
 
@@ -50,5 +50,5 @@
       });
     };
     window.scope = $scope;
-  });
+  }]);
 })();

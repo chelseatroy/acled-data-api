@@ -1,6 +1,6 @@
 (function(){
 
-  angular.module("app").controller("eventsCtrl", function($scope, $http){
+  angular.module("app").controller("eventsCtrl", ['$scope', '$http', function($scope, $http){
 
     $scope.page = 1;
 
@@ -34,5 +34,5 @@
       
     }
 
-  });
+  }]);
 })();
