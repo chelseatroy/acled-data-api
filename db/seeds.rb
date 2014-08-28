@@ -1,5 +1,5 @@
 Admin.create!([
-  {email: "chelsea.dommert@gmail.com", encrypted_password: "$2a$10$3/jwdnKieZPFLR8NEOAx4O/kCc9YsJjBkzYxa19NP9Q74DPjlxXuK", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 10, current_sign_in_at: "2014-08-27 23:02:00", last_sign_in_at: "2014-08-27 22:26:32", current_sign_in_ip: "127.0.0.1", last_sign_in_ip: "127.0.0.1"}
+  {email: "chelsea.dommert@gmail.com", :password => "password", :password_confirmation => "password", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 10, current_sign_in_at: "2014-08-27 23:02:00", last_sign_in_at: "2014-08-27 22:26:32", current_sign_in_ip: "127.0.0.1", last_sign_in_ip: "127.0.0.1"}
 ])
 Event.create!([
   {event_date: "2014-01-02", year: 2014, event_type: "Riots/Protests", actor1: "Protesters (Algeria)", actor2: nil, interaction: 60, country: "Algeria", source: "0.0", notes: "Merchants inÊAlgeria'sÊGhardaia continue strike, demand probe intoÊunrest,Êcompensation for damages incurred inÊclashes", total_fatalities: 0, latitude: "32.48333", longitude: "3.66667", approved: true, ip_address: nil},
