@@ -268,7 +268,10 @@ class EventsController < ApplicationController
   end
 
   def create
-    Event.create(event_params)
+    #TODO: Make date adding solution more robust
+    event_date_as_array = event_params[:event_date].split("/")
+    event_date = Date.new(event_date_as_array[2].to_i, event_date_as_array[0].to_i, event_date_as_array[1].to_i)
+    Event.create(event_params.merge(:event_date => event_date))
     flash[:notice] = "Event created."
     redirect_to root_path
   end
