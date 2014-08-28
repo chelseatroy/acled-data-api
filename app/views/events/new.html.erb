@@ -3,8 +3,8 @@
 <div class="form" id="new-event-form">
   <%= form_for(@event) do |f| %>
     <fieldset>
-      <%= f.label :event_date %>
-      <%= f.text_field :event_date %><br/>
+      <% f.label :event_date %>
+      <% f.text_field :event_date %><br/>
 
       <%= f.label :event_type %>
       <%= f.text_field :event_type %><br/>
@@ -15,11 +15,11 @@
       <%= f.label :actor2 %>
       <%= f.text_field :actor2 %><br/>
 
-      <%= f.label :country %>
-      <%= f.text_field :country %><br/>
+      <% f.label :country %>
+      <% f.text_field :country %><br/>
 
-      <%= f.label :source %>
-      <%= f.text_field :source %><br/>
+      <% f.label :source %>
+      <% f.text_field :source %><br/>
 
       <%= f.label :notes %>
       <%= f.text_field :notes %><br/>
@@ -27,11 +27,11 @@
       <%= f.label :total_fatalities %>
       <%= f.text_field :total_fatalities %><br/>
 
-      <%= f.label :latitude %>
-      <%= f.text_field :latitude %><br/>
+      <% f.label :latitude %>
+      <% f.text_field :latitude %><br/>
 
-      <%= f.label :longitude %>
-      <%= f.text_field :longitude %><br/>
+      <% f.label :longitude %>
+      <% f.text_field :longitude %><br/>
 
       <%= f.submit "Create Event" %>
     </fieldset>
