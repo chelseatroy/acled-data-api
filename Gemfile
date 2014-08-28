@@ -25,6 +25,7 @@ gem 'will_paginate', '~> 3.0'
 #locating
 gem 'geocoder'
 
+
 #DEFAULT GEMS
 
 # Use SCSS for stylesheets

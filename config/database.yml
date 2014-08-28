@@ -43,9 +43,9 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  adapter: postgresql
-  encoding: utf8
-  pool: 5
   database: acled-data-api_production
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
   username: acled-data-api
   password: <%= ENV['ACLED_DATA_API_PASSWORD'] %>
