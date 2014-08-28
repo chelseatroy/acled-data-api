@@ -4,6 +4,7 @@
 
 
 $primary-text-color: #F5F5F5;
+$primary-font: 'Open Sans', sans-serif;
 //UNIVERSAL STYLING (on top so it can sometimes be overridden)
 body {
   background-image: image-url("binding_dark.png"); 
@@ -11,12 +12,14 @@ body {
 
 h1, h2, h3, h4, p, label{
   color: $primary-text-color;
+  font-family: $primary-font;
 }
 
 .header{
   padding: 10px 0 0 0;
   text-align: center;
   color: $primary-text-color;
+  font-family: $primary-font;
 }
 
 #page{
