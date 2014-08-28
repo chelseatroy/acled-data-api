@@ -38,7 +38,7 @@
       // console.log('/api/v1/events/' + id + '/approve');
       $http.post('/api/v1/events/' + event.id + '/approve.json', {}).then(function(response){
         var index = $scope.events.indexOf(event);
-        $scope.events.splice(index);
+        $scope.events.splice(index, 1);
 
       });
     };
@@ -46,7 +46,7 @@
     $scope.deny = function(event){
       $http.post('/api/v1/events/' + event.id + '/deny.json', {}).then(function(response){
         var index = $scope.events.indexOf(event);
-        $scope.events.splice(index);
+        $scope.events.splice(index, 1);
       });
     };
     window.scope = $scope;
