@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140826220927) do
+ActiveRecord::Schema.define(version: 20140828020332) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20140826220927) do
     t.decimal  "latitude",         precision: 13, scale: 10
     t.decimal  "longitude",        precision: 13, scale: 10
     t.boolean  "approved",                                   default: false
+    t.string   "ip_address"
   end
 
   create_table "users", force: true do |t|

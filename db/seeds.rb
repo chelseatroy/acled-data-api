@@ -1,6 +1,3 @@
-Admin.create!([
-  {email: "chelsea.dommert@gmail.com", :password => "password", :password_confirmation => "password", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 10, current_sign_in_at: "2014-08-27 23:02:00", last_sign_in_at: "2014-08-27 22:26:32", current_sign_in_ip: "127.0.0.1", last_sign_in_ip: "127.0.0.1"}
-])
 Event.create!([
   {event_date: "2014-01-02", year: 2014, event_type: "Riots/Protests", actor1: "Protesters (Algeria)", actor2: nil, interaction: 60, country: "Algeria", source: "0.0", notes: "Merchants inÊAlgeria'sÊGhardaia continue strike, demand probe intoÊunrest,Êcompensation for damages incurred inÊclashes", total_fatalities: 0, latitude: "32.48333", longitude: "3.66667", approved: true, ip_address: nil},
   {event_date: "2014-01-03", year: 2014, event_type: "Riots/Protests", actor1: "Rioters (Algeria)", actor2: "Rioters (Algeria)", interaction: 55, country: "Algeria", source: "0.0", notes: "A 23-year-old died inÊclashesÊbetween rival youths in Ghardaia. Sixty-one police officers were injured. ", total_fatalities: 1, latitude: "32.48333", longitude: "3.66667", approved: true, ip_address: nil},
