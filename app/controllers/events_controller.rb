@@ -13,7 +13,7 @@ class EventsController < ApplicationController
     @actors_in_past_days = {}
     @types_in_past_days = {}
 
-    number_of_days = 30
+    number_of_days = 60
     number_of_days.times do |number_of|
       events = Event.where(:event_date => number_of.days.ago.to_date)
 
@@ -46,32 +46,9 @@ class EventsController < ApplicationController
       @days << number_of.days.ago.to_date.strftime("%m/%d/%Y")
     end
 
-    colors = ["#F7464A", "#FF5A5E", 
-              "#46BFBD", "#5AD3D1", 
-              "#FDB45C", "#FFC870", 
-              "#0C873F", "#12E369", 
-              "#9D12E3", "#D98BE8",
-              "#128FE3", "#3BA0E3",
-              "#E0620D", "#E39C6D",
-              "#E39C6D", "#F2949D",
-              "#266331", "#60E679"
-            ]
-    i = 0 
+    @actor_chart_array = assign_colors_for_circle_chart(@actors_in_past_days, colors)
 
-    @actor_chart_array = []
-    @actors_in_past_days.each {|key, value|
-      i = 0 unless colors[i+1]
-      @actor_chart_array.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
-      i += 2
-    } 
-
-    @type_chart_array = []
-    @types_in_past_days.each {|key, value|
-      i = 0 unless colors[i+1]
-      @type_chart_array.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
-      i += 2
-    } 
-      
+    @type_chart_array = assign_colors_for_circle_chart(@types_in_past_days, colors)
 
     @days = @days.reverse
     @all_events_by_day = @all_events_by_day.reverse.to_json
@@ -166,31 +143,9 @@ class EventsController < ApplicationController
       end
     end
 
-    colors = ["#F7464A", "#FF5A5E", 
-              "#46BFBD", "#5AD3D1", 
-              "#FDB45C", "#FFC870", 
-              "#0C873F", "#12E369", 
-              "#9D12E3", "#D98BE8",
-              "#128FE3", "#3BA0E3",
-              "#E0620D", "#E39C6D",
-              "#E39C6D", "#F2949D",
-              "#266331", "#60E679"
-            ]
-    i = 0 
+    @actor_chart_array = assign_colors_for_circle_chart(@actors_in_past_days, colors)
 
-    @actor_chart_array = []
-    @actors_in_past_days.each {|key, value|
-      i = 0 unless colors[i+1]
-      @actor_chart_array.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
-      i += 2
-    } 
-
-    @type_chart_array = []
-    @types_in_past_days.each {|key, value|
-      i = 0 unless colors[i+1]
-      @type_chart_array.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
-      i += 2
-    } 
+    @type_chart_array = assign_colors_for_circle_chart(@types_in_past_days, colors)
       
     @fatalities_by_day = @fatalities_by_day.reverse.to_json
 
@@ -240,24 +195,8 @@ class EventsController < ApplicationController
       end
     end
 
-    colors = ["#F7464A", "#FF5A5E", 
-              "#46BFBD", "#5AD3D1", 
-              "#FDB45C", "#FFC870", 
-              "#0C873F", "#12E369", 
-              "#9D12E3", "#D98BE8",
-              "#128FE3", "#3BA0E3",
-              "#E0620D", "#E39C6D",
-              "#E39C6D", "#F2949D",
-              "#266331", "#60E679"
-            ]
-    i = 0  
-
-    @type_chart_array = []
-    @types_in_past_days.each {|key, value|
-      i = 0 unless colors[i+1]
-      @type_chart_array.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
-      i += 2
-    } 
+    @type_chart_array = assign_colors_for_circle_chart(@types_in_past_days, colors)
+    
     @activity_score = (@events_by_day.sum.to_f / @days.length.to_f).round(4)
     @fatality_score = (@fatalities_by_day.sum.to_f / @events_by_day.sum.to_f).round(4)
     @fatalities_by_day = @fatalities_by_day.reverse.to_json
@@ -317,6 +256,37 @@ class EventsController < ApplicationController
       end
     end
   end
+
+  private
+
+    def assign_colors_for_circle_chart(hash_of_data, colors)
+      i = 0
+      array_for_circle_chart = []
+      hash_of_data.each {|key, value|
+        i = 0 unless colors[i+1]
+        array_for_circle_chart.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
+        i += 2
+      }
+      array_for_circle_chart
+    end
+
+    #I'm trying to factor the "i" stuff out of the above method
+    def recycle_colors(color_index)
+      #"or" used for control flow
+      colors[i+1] or 0
+    end
+
+    def colors
+      ["#F7464A", "#FF5A5E", 
+        "#46BFBD", "#5AD3D1", 
+        "#FDB45C", "#FFC870", 
+        "#0C873F", "#12E369", 
+        "#9D12E3", "#D98BE8",
+        "#128FE3", "#3BA0E3",
+        "#E0620D", "#E39C6D",
+        "#E39C6D", "#F2949D",
+        "#266331", "#60E679"]
+    end
 end
 
 
