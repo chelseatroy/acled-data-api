@@ -32,7 +32,6 @@ ActiveRecord::Schema.define(version: 20140828020332) do
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "events", force: true do |t|
-    t.date     "event_date"
     t.integer  "year"
     t.string   "event_type"
     t.string   "actor1"
@@ -44,6 +43,7 @@ ActiveRecord::Schema.define(version: 20140828020332) do
     t.integer  "total_fatalities"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "event_date"
     t.decimal  "latitude",         precision: 13, scale: 10
     t.decimal  "longitude",        precision: 13, scale: 10
     t.boolean  "approved",                                   default: false
