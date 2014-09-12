@@ -14,52 +14,42 @@ class EventsController < ApplicationController
     @types_in_past_days = {}
 
     number_of_days = 60
-    number_of_days.times do |number_of|
-      events = Event.where(:event_date => number_of.days.ago.to_date)
 
-      this_event_fatalities = 0
+    number_of_days.times do |number_of|
+
+      events = Event.for(Date.today - number_of.days)
+
+      total_fatalities = 0
 
       events.each do |event|
-        if @types_in_past_days.include?(event.event_type)
-          @types_in_past_days[event.event_type] += 1
-        else
-          @types_in_past_days.merge!({ event.event_type => 1})
-        end
-
-        if @actors_in_past_days.include?(event.actor1)
-          @actors_in_past_days[event.actor1] += 1
-        else
-          @actors_in_past_days.merge!({ event.actor1 => 1})
-        end
-
-        if @actors_in_past_days.include?(event.actor2)
-          @actors_in_past_days[event.actor2] += 2
-        else
-          @actors_in_past_days.merge!({ event.actor2 => 1})
-        end
-
-        this_event_fatalities += event.total_fatalities
+        @types_in_past_days.merge!(Event.types_from(events))
+        @actors_in_past_days.merge!(Event.actors_from(events))
+        total_fatalities += event.total_fatalities
       end
 
       @all_events_by_day << events.count
-      @all_fatalities_by_day << this_event_fatalities
+      @all_fatalities_by_day << total_fatalities
       @days << number_of.days.ago.to_date.strftime("%m/%d/%Y")
     end
 
+    # Line chart of fatalities, events by day created in above
+
+    # Pie chart of all actors; values represent incidents per actor
     @actor_chart_array = assign_colors_for_circle_chart(@actors_in_past_days, colors)
 
+    # Pie chart of all event types; values represent occurences of each event
     @type_chart_array = assign_colors_for_circle_chart(@types_in_past_days, colors)
 
     @days = @days.reverse
     @all_events_by_day = @all_events_by_day.reverse.to_json
     @all_fatalities_by_day = @all_fatalities_by_day.reverse.to_json
-    
+
+    # Heatmap of event locations; color depth is # events per location
     @event_locations = []
-    @events.each do |event| 
+    @events.each do |event|
       @event_locations << {lat: event.latitude, lng: event.longitude, count: 1}
     end
     @event_locations = @event_locations.to_json
-
 
   end
 
@@ -99,7 +89,7 @@ class EventsController < ApplicationController
     number_of_days.times do |number_of|
       events = Event.where(:country => params[:country], :event_date => number_of.days.ago.to_date)
 
-      this_event_fatalities = 0
+      total_fatalities = 0
 
       events.each do |event|
         if @types_in_past_days.include?(event.event_type)
@@ -120,11 +110,11 @@ class EventsController < ApplicationController
           @actors_in_past_days.merge!({ event.actor2 => 1})
         end
 
-        this_event_fatalities += event.total_fatalities
+        total_fatalities += event.total_fatalities
       end
 
       @events_by_day << events.count
-      @fatalities_by_day << this_event_fatalities
+      @fatalities_by_day << total_fatalities
       @days << number_of.days.ago.to_date.strftime("%m/%d/%Y")
     end
 
@@ -138,7 +128,7 @@ class EventsController < ApplicationController
       if day_label =~ /[0-9]\/01\/[0-9]/
         date = day_label.split("/")
         @each_month << "#{months[date[0].to_i]} #{date[1]}, #{date[2]}"
-      else 
+      else
         @each_month << ""
       end
     end
@@ -146,7 +136,7 @@ class EventsController < ApplicationController
     @actor_chart_array = assign_colors_for_circle_chart(@actors_in_past_days, colors)
 
     @type_chart_array = assign_colors_for_circle_chart(@types_in_past_days, colors)
-      
+
     @fatalities_by_day = @fatalities_by_day.reverse.to_json
 
   end
@@ -163,9 +153,9 @@ class EventsController < ApplicationController
     number_of_days.times do |number_of|
 
       events = (Event.where(:actor1 => params[:actor], :event_date => number_of.days.ago.to_date) + Event.where(:actor2 => params[:actor], :event_date => number_of.days.ago.to_date)).uniq.compact
-      
-      this_event_fatalities = 0
-      
+
+      total_fatalities = 0
+
       events.each do |event|
         if @types_in_past_days.include?(event.event_type)
           @types_in_past_days[event.event_type] += 1
@@ -173,11 +163,11 @@ class EventsController < ApplicationController
           @types_in_past_days.merge!({ event.event_type => 1})
         end
 
-        this_event_fatalities += event.total_fatalities
+        total_fatalities += event.total_fatalities
       end
 
       @events_by_day << events.count
-      @fatalities_by_day << this_event_fatalities
+      @fatalities_by_day << total_fatalities
       @days << number_of.days.ago.to_date.strftime("%m/%d/%Y")
     end
     @events_by_day = @events_by_day.reverse
@@ -190,13 +180,13 @@ class EventsController < ApplicationController
       if day_label =~ /[0-9]\/01\/[0-9]/
         date = day_label.split("/")
         @each_month << "#{months[date[0].to_i]} #{date[1]}, #{date[2]}"
-      else 
+      else
         @each_month << ""
       end
     end
 
     @type_chart_array = assign_colors_for_circle_chart(@types_in_past_days, colors)
-    
+
     @activity_score = (@events_by_day.sum.to_f / @days.length.to_f).round(4)
     @fatality_score = (@fatalities_by_day.sum.to_f / @events_by_day.sum.to_f).round(4)
     @fatalities_by_day = @fatalities_by_day.reverse.to_json
@@ -239,20 +229,20 @@ class EventsController < ApplicationController
     CSV.foreach(@new_events.path, :headers => true) do |row|
       count += 1
       begin
-        Event.create(:event_date => row['EVENT_DATE'], 
-                   :event_type => row['EVENT_TYPE'], 
-                   :actor1 => row['ACTOR1'], 
-                   :actor2 => row['ACTOR2'], 
-                   :year => row['YEAR'].to_i, 
-                   :country => row['COUNTRY'], 
+        Event.create(:event_date => row['EVENT_DATE'],
+                   :event_type => row['EVENT_TYPE'],
+                   :actor1 => row['ACTOR1'],
+                   :actor2 => row['ACTOR2'],
+                   :year => row['YEAR'].to_i,
+                   :country => row['COUNTRY'],
                    :total_fatalities => row['TOTAL_FATALITIES'].to_i,
                    :latitude => row['LATITUDE'],
-                   :longitude => BigDecimal(row['LONGITUDE']), 
-                   :source => BigDecimal(row['SOURCE']), 
-                   :notes => row['NOTES'], 
+                   :longitude => BigDecimal(row['LONGITUDE']),
+                   :source => BigDecimal(row['SOURCE']),
+                   :notes => row['NOTES'],
                    :interaction => row['INTERACTION'].to_i)
       rescue
-        puts "MALFORMED ROW: #{count}" 
+        puts "MALFORMED ROW: #{count}"
       end
     end
   end
