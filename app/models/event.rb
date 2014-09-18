@@ -32,6 +32,10 @@ class Event < ActiveRecord::Base
     Event.where(event_date: start_date..end_date)
   end
 
+  def lat_lng
+    {lat: self.latitude, lng: self.longitude, count: 1}
+  end
+
   def event_location
     location = "&markers=color:blue%7C#{self.latitude},#{self.longitude}"
   end
