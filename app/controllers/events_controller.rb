@@ -5,52 +5,15 @@ class EventsController < ApplicationController
   end
 
   def dashboard
-    @events = Event.all
-
-    @all_events_by_day = []
-    @all_fatalities_by_day = []
-    @days = []
-    @actors_in_past_days = {}
-    @types_in_past_days = {}
-
-    number_of_days = 60
-
-    number_of_days.times do |number_of|
-
-      events = Event.for(Date.today - number_of.days)
-
-      total_fatalities = 0
-
-      events.each do |event|
-        @types_in_past_days.merge!(Event.types_from(events))
-        @actors_in_past_days.merge!(Event.actors_from(events))
-        total_fatalities += event.total_fatalities
-      end
-
-      @all_events_by_day << events.count
-      @all_fatalities_by_day << total_fatalities
-      @days << number_of.days.ago.to_date.strftime("%m/%d/%Y")
-    end
-
-    # Line chart of fatalities, events by day created in above
-
-    # Pie chart of all actors; values represent incidents per actor
+    @dashboard = Dashboard.new(number_of_days: 60)
+    @days = @dashboard.dates
+    @all_events_by_day = @dashboard.all_events_by_day.to_json
+    @all_fatalities_by_day = @dashboard.all_fatalities_by_day.to_json
+    @types_in_past_days = @dashboard.count_by_type
+    @actors_in_past_days = @dashboard.count_by_actors
     @actor_chart_array = assign_colors_for_circle_chart(@actors_in_past_days, colors)
-
-    # Pie chart of all event types; values represent occurences of each event
     @type_chart_array = assign_colors_for_circle_chart(@types_in_past_days, colors)
-
-    @days = @days.reverse
-    @all_events_by_day = @all_events_by_day.reverse.to_json
-    @all_fatalities_by_day = @all_fatalities_by_day.reverse.to_json
-
-    # Heatmap of event locations; color depth is # events per location
-    @event_locations = []
-    @events.each do |event|
-      @event_locations << {lat: event.latitude, lng: event.longitude, count: 1}
-    end
-    @event_locations = @event_locations.to_json
-
+    @event_locations = @dashboard.locations.to_json
   end
 
   def index
@@ -267,10 +230,10 @@ class EventsController < ApplicationController
     end
 
     def colors
-      ["#F7464A", "#FF5A5E", 
-        "#46BFBD", "#5AD3D1", 
-        "#FDB45C", "#FFC870", 
-        "#0C873F", "#12E369", 
+      ["#F7464A", "#FF5A5E",
+        "#46BFBD", "#5AD3D1",
+        "#FDB45C", "#FFC870",
+        "#0C873F", "#12E369",
         "#9D12E3", "#D98BE8",
         "#128FE3", "#3BA0E3",
         "#E0620D", "#E39C6D",
