@@ -128,4 +128,38 @@ class DashboardsController < ApplicationController
     @fatalities_by_day = @fatalities_by_day.reverse.to_json
   end
 
+private
+
+    def assign_colors_for_circle_chart(hash_of_data, colors)
+      i = 0
+      array_for_circle_chart = []
+      hash_of_data.each {|key, value|
+        i = 0 unless colors[i+1]
+        array_for_circle_chart.push({value:value, color:colors[i], highlight:colors[i+1], label:key})
+        i += 2
+      }
+      array_for_circle_chart
+    end
+
+    #I'm trying to factor the "i" stuff out of the above method
+    def recycle_colors(color_index)
+      #"or" used for control flow
+      colors[i+1] or 0
+    end
+
+    def colors
+      ["#F7464A", "#FF5A5E",
+        "#46BFBD", "#5AD3D1",
+        "#FDB45C", "#FFC870",
+        "#0C873F", "#12E369",
+        "#9D12E3", "#D98BE8",
+        "#128FE3", "#3BA0E3",
+        "#E0620D", "#E39C6D",
+        "#E39C6D", "#F2949D",
+        "#266331", "#60E679"]
+    end
 end
+
+
+
+

@@ -1,0 +1,156 @@
+<% if admin_signed_in? %>
+
+<% end %>
+  <h1 class="header">Armed Conflict Location and Event Data</h1>
+
+  <h3 class="header">Locations of Violent Events Since June</h3>
+    <div class="demo-wrapper single-column-chart">
+      <div id="heatmapArea" class="heatmap"></div>
+    </div>
+
+  <h3 class="header">Total Violent Events from the Past Month:</h3>
+  <div>
+    <canvas id="monthLineChart" class="single-column-chart grid_9" width="880" height="400"></canvas>
+  </div>
+
+  <div id="line-chart-legend" class="baby-box grid_2"></div>
+
+  <div class="circle-chart-box grid_6">
+    <h4>Breakdown of Violence by Actor, Past 30 Days</h4>
+    <canvas id="actorPieChart" width="400" height="400"></canvas>
+  </div>
+
+  <div class="circle-chart-box grid_6">
+    <h4>Breakdown of Violence by Type, Past 30 Days</h4>
+    <canvas id="typePieChart" width="400" height="400"></canvas>
+  </div>
+
+
+
+
+<script>
+  //LINE CHART EVENTS PAST 30 DAYS SCRIPT
+  var data = {
+      labels: <%= raw @days %>,
+      datasets: [
+          {
+            label: "Violent Events",
+            fillColor: "rgba(100,100,200,0.2)",
+            strokeColor: "rgba(100,100,200,1)",
+            pointColor: "rgba(100,100,200,1)",
+            pointStrokeColor: "#bbf",
+            pointHighlightFill: "#bbf",
+            pointHighlightStroke: "rgba(100,100,200,1)",
+            data: <%= @all_events_by_day %>
+          },
+          {
+            label: "Fatalities",
+            fillColor: "rgba(440,120,120,0.2)",
+            strokeColor: "rgba(440,120,120,1)",
+            pointColor: "rgba(440,120,120,1)",
+            pointStrokeColor: "#fbb",
+            pointHighlightFill: "#fbb",
+            pointHighlightStroke: "rgba(440,120,120,1)",
+            data: <%= @all_fatalities_by_day %>
+          }
+
+      ]
+  };
+
+  var legend = "<ul style=\"list-style-type: none;\">";
+  for(var i = 0; i < data["datasets"].length; i++){
+    legend += "<li><div style=\"background-color:" + data["datasets"][i]["pointColor"] + "; height: 20px; width: 20px; float: left; margin: 5px;\"></div>" + data["datasets"][i]["label"] + "</li>"
+  }
+  legend += "</ul>"
+
+  var ctx = document.getElementById("monthLineChart").getContext("2d");
+  var myLineChart = new Chart(ctx).Line(data);
+
+  document.getElementById("line-chart-legend").innerHTML = legend;
+</script>
+
+<script>
+//ACTORS PIE CHART SCRIPT
+var data = <%= raw @actor_chart_array.to_json %>;
+
+var ctx = document.getElementById("actorPieChart").getContext("2d");
+
+var myPieChart = new Chart(ctx).Pie(data, {
+  percentageInnerCutout : 30, segmentShowStroke: false, animationEasing: "easeOutQuart"
+});
+</script>
+
+<script>
+//TYPES PIE CHART SCRIPT
+var data = <%= raw @type_chart_array.to_json %>;
+
+var ctx = document.getElementById("typePieChart").getContext("2d");
+
+
+var myPieChart = new Chart(ctx).Pie(data, {
+  percentageInnerCutout : 30, segmentShowStroke: false, animationEasing: "easeOutQuart"
+});
+</script>
+
+<script>
+//HEATMAP SCRIPT
+  window.onload = function() {
+
+      // map center
+      var myLatlng = new google.maps.LatLng(17.5968801,8.0828506);
+      // map options,
+      var myOptions = {
+        zoom: 3,
+        center: myLatlng,
+        mapTypeId: google.maps.MapTypeId.HYBRID,
+        disableDefaultUI: false,
+        scrollwheel: false,
+        draggable: true,
+        navigationControl: true,
+        mapTypeControl: false,
+        scaleControl: true,
+        disableDoubleClickZoom: false
+      };
+      // standard map
+      var map = new google.maps.Map(document.getElementById("heatmapArea"), myOptions);
+      // heatmap layer
+      var heatmap = new HeatmapOverlay(map,
+        {
+          gradient: {
+          // enter n keys between 0 and 1 here
+          // for gradient color customization
+          '.05': 'purple',
+          '.6': 'red',
+          '.9': 'white'
+          },
+          // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+          "radius": 2,
+          "maxOpacity": 1,
+          // scales the radius based on map zoom
+          "scaleRadius": true,
+          // if set to false the heatmap uses the global maximum for colorization
+          // if activated: uses the data maximum within the current map boundaries
+          //   (there will always be a red spot with useLocalExtremas true)
+          "useLocalExtrema": true,
+          // which field name in your data represents the latitude - default "lat"
+          latField: 'lat',
+          // which field name in your data represents the longitude - default "lng"
+          lngField: 'lng',
+          // which field name in your data represents the data value - default "value"
+          valueField: 'count'
+        }
+      );
+
+      var eventLocations = {
+        max: 8,
+        data: <%= raw @event_locations %>
+      };
+
+      heatmap.setData(eventLocations);
+
+  };
+</script>
+
+
+
+

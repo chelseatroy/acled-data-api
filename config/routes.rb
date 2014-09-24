@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'dashboards/by_date' => 'dashboards#by_date', as: :by_date
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.
