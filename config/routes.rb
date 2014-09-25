@@ -1,17 +1,18 @@
 Rails.application.routes.draw do
 
   devise_for :admins
-  root'events#dashboard'                    
-  get 'events/actors'    => 'events#actors',    as: :actors
-  get 'events/countries' => 'events#countries', as: :countries
-  get 'events/upload'    => 'events#upload',    as: :upload
-  post'events/upload'    => 'events#import',    as: :import
-  get 'events/admin'     => 'events#admin',     as: :admin_dashboard
+  root 'event_dashboards#show'
+  get  'events/actors'    => 'events#actors',    as: :actors
+  get  'events/countries' => 'events#countries', as: :countries
+  get  'events/upload'    => 'events#upload',    as: :upload
+  post 'events/upload'    => 'events#import',    as: :import
+  get  'events/admin'     => 'events#admin',     as: :admin_dashboard
 
   resources :events
   get 'events/countries/:country' => 'events#by_country', as: :country
   get 'events/actors/:actor'      => 'events#by_actor', as: :actor
 
+  get 'dashboards/countries/:country' => 'country_dashboards#show'
 
   namespace :api do
     namespace :v1 do
@@ -20,10 +21,6 @@ Rails.application.routes.draw do
       post 'events/:id/deny' => 'events#destroy', as: :deny
     end
   end
-
-  get 'dashboards/by_date' => 'dashboards#by_date', as: :by_date
-
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

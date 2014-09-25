@@ -1,0 +1,90 @@
+<h1 class="header">Violence in <%= @country %></h1>
+
+<h4>Violence Events in <%= @country %> since January 2014</h4>
+<canvas id="myChart" class="extendedTimeChart grid_9" width="880" height="400"></canvas>
+
+<div id="line-chart-legend" class="baby-box grid_2"></div>
+
+
+<div class="circle-chart-box grid_6">
+  <h4>Violence in <%= @country %> by Actor</h4>
+  <canvas id="actorPieChart" width="400" height="400"></canvas>
+</div>
+
+<div class="circle-chart-box grid_6">
+  <h4>Violence in <%= @country %> by Type</h4>
+  <canvas id="typePieChart" width="400" height="400"></canvas>
+</div>
+
+<%= @each_month.inspect %>
+
+<script>
+
+  var data = {
+      labels: <%= raw @each_month %>,
+      datasets: [
+          {
+            label: "Violent Events",
+            fillColor: "rgba(100,100,200,0.2)",
+            strokeColor: "rgba(100,100,200,1)",
+            pointColor: "rgba(100,100,200,1)",
+            pointStrokeColor: "#bbf",
+            pointHighlightFill: "#bbf",
+            pointHighlightStroke: "rgba(100,100,200,1)",
+            data: <%= @all_events_by_day %>
+          },
+          {
+            label: "Fatalities",
+            fillColor: "rgba(440,120,120,0.2)",
+            strokeColor: "rgba(440,120,120,1)",
+            pointColor: "rgba(440,120,120,1)",
+            pointStrokeColor: "#fbb",
+            pointHighlightFill: "#fbb",
+            pointHighlightStroke: "rgba(440,120,120,1)",
+            data: <%= @all_fatalities_by_day %>
+        }
+
+      ]
+  };
+
+  var legend = "<ul style=\"list-style-type: none;\">";
+  for(var i = 0; i < data["datasets"].length; i++){
+    legend += "<li><div style=\"background-color:" + data["datasets"][i]["pointColor"] + "; height: 20px; width: 20px; float: left; margin: 5px;\"></div>" + data["datasets"][i]["label"] + "</li>"
+  }
+  legend += "</ul>"
+
+  var ctx = document.getElementById("myChart").getContext("2d");
+
+  var myLineChart = new Chart(ctx).Line(data, {
+    showTooltips: false
+  });
+
+  document.getElementById("line-chart-legend").innerHTML = legend;
+</script>
+
+<script>
+  //ACTORS PIE CHART SCRIPT
+  var data = <%= raw @actor_chart_array.to_json %>;
+
+  var ctx = document.getElementById("actorPieChart").getContext("2d");
+
+  var myPieChart = new Chart(ctx).Pie(data, {
+    percentageInnerCutout : 30, segmentShowStroke: false, animationEasing: "easeOutQuart"
+  });
+</script>
+
+<script>
+  //TYPES PIE CHART SCRIPT
+  var data = <%= raw @type_chart_array.to_json %>;
+
+  var ctx = document.getElementById("typePieChart").getContext("2d");
+
+
+  var myPieChart = new Chart(ctx).Pie(data, {
+    percentageInnerCutout : 30, segmentShowStroke: false, animationEasing: "easeOutQuart"
+  });
+</script>
+
+
+
+
