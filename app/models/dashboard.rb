@@ -1,8 +1,9 @@
+# TODO rename this?
 class Dashboard
 
   include PoroPlus
 
-  attr_accessor :number_of_days, :locations
+  attr_accessor :number_of_days, :locations, :country
 
   def actors
     statistics.map(&:actors).map(&:flatten).flatten.uniq
@@ -45,9 +46,15 @@ class Dashboard
     end
   end
 
+  def events_for_date(date)
+    events = Event.for(Date.parse(date))
+    events = events.for_country(self.country) if self.country.present?
+    events
+  end
+
   def statistics
     @statistics ||= dates.map do |date|
-      events = Event.for(Date.parse(date))
+      events = events_for_date(date)
       stat = Statistic.new(
         events_count: events.count,
         fatalities_count: events.map(&:total_fatalities).sum,
