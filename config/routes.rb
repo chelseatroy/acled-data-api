@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   get 'events/actors/:actor'      => 'events#by_actor', as: :actor
 
   get 'dashboards/countries/:country' => 'country_dashboards#show'
+  get 'dashboards/actors/:actor' => 'actor_dashboards#show'
+
 
   namespace :api do
     namespace :v1 do

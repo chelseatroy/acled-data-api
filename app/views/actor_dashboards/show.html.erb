@@ -1,18 +1,18 @@
-<h1 class="header">Violence in <%= @country %></h1>
+<h1 class="header">Violence by <%= @actor %></h1>
 
-<h4>Violence Events in <%= @country %> since January 2014</h4>
+<h4>Violence Events by <%= @actor %> since January 2014</h4>
 <canvas id="myChart" class="extendedTimeChart grid_9" width="880" height="400"></canvas>
 
 <div id="line-chart-legend" class="baby-box grid_2"></div>
 
 
 <div class="circle-chart-box grid_6">
-  <h4>Violence in <%= @country %> by Actor</h4>
+  <h4>Violence by <%= @actor %> by Type</h4>
   <canvas id="actorPieChart" width="400" height="400"></canvas>
 </div>
 
 <div class="circle-chart-box grid_6">
-  <h4>Violence in <%= @country %> by Type</h4>
+  <h4>Violence by <%= @actor %> by Type</h4>
   <canvas id="typePieChart" width="400" height="400"></canvas>
 </div>
 
@@ -84,3 +84,10 @@
     percentageInnerCutout : 30, segmentShowStroke: false, animationEasing: "easeOutQuart"
   });
 </script>
+
+
+
+
+
+
+
